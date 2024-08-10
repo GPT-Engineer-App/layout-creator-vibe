@@ -43,15 +43,15 @@ const UpcomingDiscoveryCall = ({ meeting }) => {
         <div className="space-y-4">
           <div>
             <p className="font-semibold">Date:</p>
-            <p className="bg-gray-100 rounded-md px-2 py-1">{formatDate(meeting.event_start_time)}</p>
+            <p className="bg-gray-100 rounded-md px-3 py-2">{formatDate(meeting.event_start_time)}</p>
           </div>
           <div>
             <p className="font-semibold">Location:</p>
-            <p className="bg-gray-100 rounded-md px-2 py-1">{meeting.meeting_timezone}</p>
+            <p className="bg-gray-100 rounded-md px-3 py-2">{meeting.meeting_timezone}</p>
           </div>
           <div>
             <p className="font-semibold">Meeting Link:</p>
-            <a href={meeting.meeting_url} target="_blank" rel="noopener noreferrer" className="bg-gray-100 rounded-md px-2 py-1 text-blue-500 hover:underline block">
+            <a href={meeting.meeting_url} target="_blank" rel="noopener noreferrer" className="bg-gray-100 rounded-md px-3 py-2 text-blue-500 hover:underline block">
               Join Meeting
             </a>
           </div>
