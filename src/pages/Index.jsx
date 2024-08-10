@@ -1,13 +1,6 @@
-import DashboardTemplate from "../components/templates/DashboardTemplate";
-import ProfileCard from "../components/organisms/ProfileCard";
 import MatchList from "../components/organisms/MatchList";
 
 const Index = () => {
-  const profileData = {
-    name: "[Member Name]",
-    tagline: "Career Stage Tagline",
-  };
-
   const matchesData = [
     {
       name: "John Doe",
@@ -48,10 +41,10 @@ const Index = () => {
   ];
 
   return (
-    <DashboardTemplate
-      profileComponent={<ProfileCard {...profileData} />}
-      matchesComponent={<MatchList matches={matchesData} />}
-    />
+    <div className="bg-white rounded-lg shadow-md p-6">
+      <h1 className="text-3xl font-bold text-blue-500 mb-6">Top Matches</h1>
+      <MatchList matches={matchesData} />
+    </div>
   );
 };
 
