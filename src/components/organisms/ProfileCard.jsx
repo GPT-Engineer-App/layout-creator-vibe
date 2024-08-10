@@ -9,6 +9,9 @@ const ProfileCard = ({ profile }) => {
     { title: "Interests", content: profile.interests },
     { title: "Communication Preferences", content: [profile.preferred_communication] },
     { title: "Location", content: [profile.location] },
+  ];
+
+  const singleColumnSections = [
     { title: "Industry", content: [profile.industry] },
     { title: "Hobbies", content: profile.hobbies },
   ];
@@ -27,17 +30,26 @@ const ProfileCard = ({ profile }) => {
         </ProfileSection>
       </div>
       <div className="grid grid-cols-2 gap-4">
-        {sections
-          .filter((section) => section.title !== "Business Goals")
-          .map((section, index) => (
-            <ProfileSection key={index} title={section.title}>
-              {Array.isArray(section.content) ? (
-                section.content.map((item, idx) => <span key={idx}>{item}</span>)
-              ) : (
-                <span>{section.content}</span>
-              )}
-            </ProfileSection>
-          ))}
+        {sections.map((section, index) => (
+          <ProfileSection key={index} title={section.title}>
+            {Array.isArray(section.content) ? (
+              section.content.map((item, idx) => <span key={idx}>{item}</span>)
+            ) : (
+              <span>{section.content}</span>
+            )}
+          </ProfileSection>
+        ))}
+      </div>
+      <div className="grid grid-cols-1 gap-4 mt-4">
+        {singleColumnSections.map((section, index) => (
+          <ProfileSection key={index} title={section.title}>
+            {Array.isArray(section.content) ? (
+              section.content.map((item, idx) => <span key={idx}>{item}</span>)
+            ) : (
+              <span>{section.content}</span>
+            )}
+          </ProfileSection>
+        ))}
       </div>
     </div>
   );
