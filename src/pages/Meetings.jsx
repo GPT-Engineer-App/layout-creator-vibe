@@ -43,21 +43,21 @@ const UpcomingDiscoveryCall = ({ meeting }) => {
         <div className="space-y-4">
           <div>
             <p className="font-semibold">Date:</p>
-            <p>{formatDate(meeting.event_start_time)}</p>
+            <p className="bg-gray-100 rounded-md px-2 py-1">{formatDate(meeting.event_start_time)}</p>
           </div>
           <div>
             <p className="font-semibold">Location:</p>
-            <p>{meeting.meeting_timezone}</p>
+            <p className="bg-gray-100 rounded-md px-2 py-1">{meeting.meeting_timezone}</p>
           </div>
           <div>
             <p className="font-semibold">Meeting Link:</p>
-            <a href={meeting.meeting_url} target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:underline">
+            <a href={meeting.meeting_url} target="_blank" rel="noopener noreferrer" className="bg-gray-100 rounded-md px-2 py-1 text-blue-500 hover:underline block">
               Join Meeting
             </a>
           </div>
           <div>
             <p className="font-semibold">Host:</p>
-            <p>{meeting.host_email}</p>
+            <p className="bg-gray-100 rounded-md px-2 py-1">{meeting.host_email}</p>
           </div>
           <div className="mt-6 space-x-2">
             <Button variant="outline" className="text-red-500 border-red-500 hover:bg-red-50" onClick={() => window.open(meeting.cancel_url, '_blank')}>
