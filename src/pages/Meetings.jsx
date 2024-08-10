@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Link } from 'react-router-dom';
 
 const Meetings = () => {
   const [hasDiscoveryCalls, setHasDiscoveryCalls] = useState(false);
@@ -12,12 +13,32 @@ const Meetings = () => {
         <Card className="mb-6">
           <CardHeader>
             <CardTitle className="text-lg font-semibold text-yellow-600">
-              Matches will be generated after the first Discovery Call
+              No Discovery Calls scheduled yet
             </CardTitle>
           </CardHeader>
+          <CardContent>
+            <p className="mb-4">Schedule your first Discovery Call to get started with matches!</p>
+            <Button>Schedule Discovery Call</Button>
+          </CardContent>
         </Card>
-      ) : null}
-      <UpcomingDiscoveryCall />
+      ) : (
+        <>
+          <UpcomingDiscoveryCall />
+          <Card className="mt-6">
+            <CardHeader>
+              <CardTitle className="text-lg font-semibold text-green-600">
+                Matches are ready!
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <p className="mb-4">Your Discovery Call is complete. Check out your matches!</p>
+              <Link to="/matches">
+                <Button>View Matches</Button>
+              </Link>
+            </CardContent>
+          </Card>
+        </>
+      )}
     </div>
   );
 };

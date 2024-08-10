@@ -17,8 +17,8 @@ const App = () => (
         <Navbar />
         <Layout>
           <Routes>
-            <Route path="/" element={<Index />} />
-            <Route path="/meetings" element={<Meetings />} />
+            <Route path="/" element={<Meetings />} />
+            <Route path="/matches" element={<Index />} />
           </Routes>
         </Layout>
       </BrowserRouter>

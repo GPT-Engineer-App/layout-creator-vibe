@@ -13,10 +13,10 @@ const Navbar = () => {
             </div>
             <div className="ml-10 flex items-center space-x-4">
               <NavLink to="/" currentPath={location.pathname}>
-                Matches
-              </NavLink>
-              <NavLink to="/meetings" currentPath={location.pathname}>
                 Meetings
+              </NavLink>
+              <NavLink to="/matches" currentPath={location.pathname}>
+                Matches
               </NavLink>
             </div>
           </div>
