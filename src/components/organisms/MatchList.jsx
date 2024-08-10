@@ -23,23 +23,22 @@ const MatchList = ({ matches }) => {
 
   return (
     <div className="space-y-4">
-        {matches.map((match, index) => (
-          <MatchCard 
-            key={index} 
-            {...match}
-            isExpanded={index === expandedMatchIndex}
-            isTransitioning={isTransitioning}
-            onToggle={() => handleExpand(index)}
-            matchReason={match.matchReason || "Match reason not provided"}
-            potentialCollaboration={match.potentialCollaboration || "Potential collaboration not specified"}
-            complimentarySkills={match.complimentarySkills || "Complimentary skills not listed"}
-            sharedInterests={match.sharedInterests || "Shared interests not provided"}
-            communicationCompatibility={match.communicationCompatibility || "Communication compatibility not specified"}
-            geographicalSynergy={match.geographicalSynergy || "Geographical synergy not provided"}
-          />
-        ))}
-      </div>
-    </>
+      {matches.map((match, index) => (
+        <MatchCard 
+          key={index} 
+          {...match}
+          isExpanded={index === expandedMatchIndex}
+          isTransitioning={isTransitioning}
+          onToggle={() => handleExpand(index)}
+          matchReason={match.matchReason || "Match reason not provided"}
+          potentialCollaboration={match.potentialCollaboration || "Potential collaboration not specified"}
+          complimentarySkills={match.complimentarySkills || "Complimentary skills not listed"}
+          sharedInterests={match.sharedInterests || "Shared interests not provided"}
+          communicationCompatibility={match.communicationCompatibility || "Communication compatibility not specified"}
+          geographicalSynergy={match.geographicalSynergy || "Geographical synergy not provided"}
+        />
+      ))}
+    </div>
   );
 };
 
