@@ -5,12 +5,11 @@ const ProfileCard = ({ profile }) => {
   if (!profile) return null;
 
   const sections = [
-    { title: "Business Goals", content: profile.business_goals },
-    { title: "Industry", content: [profile.industry] },
     { title: "Key Skills", content: profile.key_skills },
     { title: "Interests", content: profile.interests },
     { title: "Communication Preferences", content: [profile.preferred_communication] },
     { title: "Location", content: [profile.location] },
+    { title: "Industry", content: [profile.industry] },
     { title: "Hobbies", content: profile.hobbies },
   ];
 
@@ -20,9 +19,17 @@ const ProfileCard = ({ profile }) => {
       
       <ProfileHeader name={profile.name} tagline={profile.career_stage} />
 
-      <div className="space-y-4">
-        <div className="grid grid-cols-1 gap-4">
-          {sections.map((section, index) => (
+      <div className="mb-4">
+        <ProfileSection title="Business Goals">
+          {profile.business_goals.map((goal, idx) => (
+            <span key={idx}>{goal}</span>
+          ))}
+        </ProfileSection>
+      </div>
+      <div className="grid grid-cols-2 gap-4">
+        {sections
+          .filter((section) => section.title !== "Business Goals")
+          .map((section, index) => (
             <ProfileSection key={index} title={section.title}>
               {Array.isArray(section.content) ? (
                 section.content.map((item, idx) => <span key={idx}>{item}</span>)
@@ -31,7 +38,6 @@ const ProfileCard = ({ profile }) => {
               )}
             </ProfileSection>
           ))}
-        </div>
       </div>
     </div>
   );
