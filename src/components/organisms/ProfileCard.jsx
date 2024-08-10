@@ -19,25 +19,30 @@ const ProfileCard = ({ profile }) => {
       
       <ProfileHeader name={profile.name} tagline={profile.career_stage} />
 
-      <div className="mb-4">
-        <ProfileSection title="Business Goals">
-          {profile.business_goals.map((goal, idx) => (
-            <span key={idx}>{goal}</span>
-          ))}
-        </ProfileSection>
-      </div>
-      <div className="grid grid-cols-2 gap-4">
-        {sections
-          .filter((section) => section.title !== "Business Goals")
-          .map((section, index) => (
-            <ProfileSection key={index} title={section.title}>
-              {Array.isArray(section.content) ? (
-                section.content.map((item, idx) => <span key={idx}>{item}</span>)
-              ) : (
-                <span>{section.content}</span>
-              )}
-            </ProfileSection>
-          ))}
+      <div className="space-y-4">
+        <div className="grid grid-cols-1 gap-4">
+          <ProfileSection title="Business Goals">
+            {profile.business_goals.map((goal, idx) => (
+              <span key={idx}>{goal}</span>
+            ))}
+          </ProfileSection>
+          <ProfileSection title="Industry">
+            <span>{profile.industry}</span>
+          </ProfileSection>
+        </div>
+        <div className="grid grid-cols-2 gap-4">
+          {sections
+            .filter((section) => !["Business Goals", "Industry"].includes(section.title))
+            .map((section, index) => (
+              <ProfileSection key={index} title={section.title}>
+                {Array.isArray(section.content) ? (
+                  section.content.map((item, idx) => <span key={idx}>{item}</span>)
+                ) : (
+                  <span>{section.content}</span>
+                )}
+              </ProfileSection>
+            ))}
+        </div>
       </div>
     </div>
   );
