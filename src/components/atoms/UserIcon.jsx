@@ -8,8 +8,8 @@ const UserIcon = ({ size = "medium" }) => {
   };
 
   return (
-    <div className={`bg-gray-200 rounded-full p-3 ${sizeClasses[size]}`}>
-      <User className={`text-gray-600 ${sizeClasses[size]}`} />
+    <div className={`bg-gray-200 rounded-full flex items-center justify-center ${sizeClasses[size]}`}>
+      <User className="text-gray-600 w-2/3 h-2/3" />
     </div>
   );
 };
