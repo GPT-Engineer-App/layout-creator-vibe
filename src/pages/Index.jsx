@@ -1,6 +1,14 @@
 import MatchList from "../components/organisms/MatchList";
+import { useMatchmakerProfiles } from "../integrations/supabase";
 
 const Index = () => {
+  const { data: matchmakerProfiles, isLoading, error } = useMatchmakerProfiles();
+
+  console.log("Matchmaker Profiles:", matchmakerProfiles);
+
+  if (isLoading) return <div>Loading...</div>;
+  if (error) return <div>Error: {error.message}</div>;
+
   const matchesData = [
     {
       name: "John Doe",
@@ -40,10 +48,23 @@ const Index = () => {
     },
   ];
 
+  const processedMatches = matchmakerProfiles.map(profile => ({
+    name: profile.name,
+    country: "🌍", // You might want to add a country field to your profiles
+    experience: profile.career_stage,
+    matchScore: Math.floor(Math.random() * 3) + 7, // Random score between 7-9 for demo
+    matchReason: `Matched based on ${profile.key_skills.join(", ")}`,
+    potentialCollaboration: profile.business_goals[0],
+    complimentarySkills: profile.key_skills.join(", "),
+    sharedInterests: profile.interests.join(", "),
+    communicationCompatibility: profile.preferred_communication,
+    geographicalSynergy: `Based in ${profile.location}`,
+  }));
+
   return (
     <div className="bg-white rounded-lg shadow-md p-6">
       <h1 className="text-3xl font-bold text-blue-500 mb-6">Top Matches</h1>
-      <MatchList matches={matchesData} />
+      <MatchList matches={processedMatches} />
     </div>
   );
 };
