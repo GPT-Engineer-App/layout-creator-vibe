@@ -1,45 +1,7 @@
-import { useState, useEffect } from "react";
 import ProfileHeader from "../molecules/ProfileHeader";
 import ProfileSection from "../molecules/ProfileSection";
-import { Alert, AlertDescription } from "@/components/ui/alert";
 
-const ProfileCard = ({ profile, isLoading, error }) => {
-  const [showError, setShowError] = useState(false);
-
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      if (isLoading) {
-        setShowError(true);
-      }
-    }, 10000); // 10 seconds timeout
-
-    return () => clearTimeout(timer);
-  }, [isLoading]);
-
-  if (isLoading && !showError) {
-    return <div className="h-full bg-white rounded-lg shadow-md p-6 flex items-center justify-center">Loading profile...</div>;
-  }
-
-  if (error || showError) {
-    return (
-      <Alert variant="destructive" className="h-full bg-red-100 border-red-400 text-red-700 rounded-lg shadow-md p-6">
-        <AlertDescription>
-          Error loading profile. Please try again later.
-        </AlertDescription>
-      </Alert>
-    );
-  }
-
-  if (!profile) {
-    return (
-      <Alert variant="warning" className="h-full bg-yellow-100 border-yellow-400 text-yellow-700 rounded-lg shadow-md p-6">
-        <AlertDescription>
-          No profile data available.
-        </AlertDescription>
-      </Alert>
-    );
-  }
-
+const ProfileCard = ({ profile }) => {
   return (
     <div className="h-full bg-white rounded-lg shadow-md p-6 overflow-auto">
       <h1 className="text-3xl font-bold text-purple-600 mb-6">Your Profile</h1>
