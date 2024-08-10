@@ -22,40 +22,42 @@ const ProfileCard = ({ profile }) => {
 
       <div className="grid grid-cols-2 gap-4 mb-4">
         <ProfileSection title="Business Goals">
-          {renderGrid(profile.business_goals)}
+          {profile.business_goals.map((goal, index) => (
+            <React.Fragment key={index}>{goal}</React.Fragment>
+          ))}
         </ProfileSection>
         <ProfileSection title="Key Skills">
-          {renderGrid(profile.key_skills)}
+          {profile.key_skills.map((skill, index) => (
+            <React.Fragment key={index}>{skill}</React.Fragment>
+          ))}
         </ProfileSection>
       </div>
 
       <div className="grid grid-cols-2 gap-4 mb-4">
         <ProfileSection title="Interests">
-          {renderGrid(profile.interests)}
+          {profile.interests.map((interest, index) => (
+            <React.Fragment key={index}>{interest}</React.Fragment>
+          ))}
         </ProfileSection>
         <ProfileSection title="Hobbies">
-          {renderGrid(profile.hobbies)}
+          {profile.hobbies.map((hobby, index) => (
+            <React.Fragment key={index}>{hobby}</React.Fragment>
+          ))}
         </ProfileSection>
       </div>
 
       <div className="grid grid-cols-2 gap-4">
         <ProfileSection title="Communication Preferences">
-          <span className="bg-gray-100 rounded-md px-3 py-2 text-sm">
-            {profile.preferred_communication}
-          </span>
+          {profile.preferred_communication}
         </ProfileSection>
         <ProfileSection title="Location">
-          <span className="bg-gray-100 rounded-md px-3 py-2 text-sm">
-            {profile.location}
-          </span>
+          {profile.location}
         </ProfileSection>
       </div>
 
       <div className="mt-4">
         <ProfileSection title="Industry">
-          <span className="bg-gray-100 rounded-md px-3 py-2 text-sm">
-            {profile.industry}
-          </span>
+          {profile.industry}
         </ProfileSection>
       </div>
     </div>
