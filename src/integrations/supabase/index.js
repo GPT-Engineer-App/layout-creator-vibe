@@ -222,7 +222,20 @@ export const useDeleteAaaUser = () => {
 // Hooks for user_matches table
 export const useUserMatches = () => useQuery({
     queryKey: ['user_matches'],
-    queryFn: () => fromSupabase(supabase.from('user_matches').select('*'))
+    queryFn: async () => {
+        const { data, error } = await supabase
+            .from('user_matches')
+            .select(`
+                *,
+                matched_profile:matched_profile_id(name, location)
+            `);
+        if (error) throw new Error(error.message);
+        return data.map(match => ({
+            ...match,
+            name: match.matched_profile?.name,
+            country: match.matched_profile?.location,
+        }));
+    }
 });
 
 export const useUserMatch = (matchId) => useQuery({

@@ -1,19 +1,23 @@
 import MatchList from "../components/organisms/MatchList";
 
 const Index = () => {
-  const matchesData = [
-    {
-      name: "John Doe",
-      country: "🇺🇸",
-      experience: "Senior Developer",
-      matchScore: 8,
-      matchReason: "Similar technical background and project interests",
-      potentialCollaboration: "Joint development of a new open-source tool",
-      complimentarySkills: "Backend expertise complements your frontend skills",
-      sharedInterests: "Machine learning, blockchain technology",
-      communicationCompatibility: "Both prefer async communication",
-      geographicalSynergy: "2 hour time difference, potential for real-time collaboration",
-    },
+  const { data: matchesData = [], isLoading, error } = useUserMatches();
+
+  if (isLoading) return <div>Loading...</div>;
+  if (error) return <div>Error: {error.message}</div>;
+
+  const processedMatchesData = matchesData.map(match => ({
+    name: match.name || "Unknown Name",
+    country: match.country || "🌍",
+    experience: match.experience || "Not specified",
+    matchScore: match.matching_score || 0,
+    matchReason: match.explanation || "No reason provided",
+    potentialCollaboration: match.potential_collaboration || "Not specified",
+    complimentarySkills: match.complementary_skills?.join(", ") || "None listed",
+    sharedInterests: match.shared_interests?.join(", ") || "None found",
+    communicationCompatibility: match.communication_compatibility || "Not determined",
+    geographicalSynergy: match.geographical_synergy || "Not specified",
+  }));
     {
       name: "Alice Smith",
       country: "🇬🇧",
