@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Alert, AlertDescription } from "@/components/ui/alert";
+import { Skeleton } from "@/components/ui/skeleton";
 import { format } from "date-fns";
 import { useDiscoveryMeetingsForProfile } from "../integrations/supabase";
 
@@ -8,7 +9,18 @@ const Meetings = () => {
   const profileId = "7f4c2fb8-d3e6-4671-b45e-f2ffb76a1d12";
   const { data: meetings, isLoading, error } = useDiscoveryMeetingsForProfile(profileId);
 
-  if (isLoading) return <div>Loading...</div>;
+  if (isLoading) {
+    return (
+      <div className="h-full bg-white rounded-lg shadow-md p-6 overflow-auto">
+        <Skeleton className="h-12 w-3/4 mb-6" />
+        <div className="space-y-4">
+          <Skeleton className="h-48 w-full" />
+          <Skeleton className="h-48 w-full" />
+          <Skeleton className="h-48 w-full" />
+        </div>
+      </div>
+    );
+  }
   if (error) return <div>Error: {error.message}</div>;
 
   return (

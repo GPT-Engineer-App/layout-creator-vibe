@@ -1,6 +1,7 @@
 import MatchList from "../components/organisms/MatchList";
 import { useMatchmakerProfile, useUserMatchesWithDetailsForProfile, useRealtimeData } from "../integrations/supabase";
 import React from 'react';
+import { Skeleton } from "@/components/ui/skeleton";
 
 const Index = () => {
   const profileId = "7f4c2fb8-d3e6-4671-b45e-f2ffb76a1d12";
@@ -15,7 +16,16 @@ const Index = () => {
     }
   }, [realtimeData, refetch]);
 
-  if (profileLoading || matchesLoading) return <div>Loading...</div>;
+  if (profileLoading || matchesLoading) {
+    return (
+      <div className="space-y-4">
+        <Skeleton className="h-12 w-3/4" />
+        <Skeleton className="h-48 w-full" />
+        <Skeleton className="h-48 w-full" />
+        <Skeleton className="h-48 w-full" />
+      </div>
+    );
+  }
   if (profileError) return <div>Error loading profile: {profileError.message}</div>;
   if (matchesError) return <div>Error loading matches: {matchesError.message}</div>;
   if (!profile) return <div>No profile found</div>;
