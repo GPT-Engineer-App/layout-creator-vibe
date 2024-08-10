@@ -1,10 +1,19 @@
 import MatchList from "../components/organisms/MatchList";
-import { useMatchmakerProfile, useUserMatchesWithDetailsForProfile } from "../integrations/supabase";
+import { useMatchmakerProfile, useUserMatchesWithDetailsForProfile, useRealtimeData } from "../integrations/supabase";
+import React from 'react';
 
 const Index = () => {
   const profileId = "7f4c2fb8-d3e6-4671-b45e-f2ffb76a1d12";
   const { data: profile, isLoading: profileLoading, error: profileError } = useMatchmakerProfile(profileId);
-  const { data: userMatches, isLoading: matchesLoading, error: matchesError } = useUserMatchesWithDetailsForProfile(profileId);
+  const { data: userMatches, isLoading: matchesLoading, error: matchesError, refetch } = useUserMatchesWithDetailsForProfile(profileId);
+  const realtimeData = useRealtimeData();
+
+  React.useEffect(() => {
+    if (realtimeData && (realtimeData.eventType === 'INSERT' || realtimeData.eventType === 'UPDATE')) {
+      // Refetch the data when we receive a real-time update
+      refetch();
+    }
+  }, [realtimeData, refetch]);
 
   if (profileLoading || matchesLoading) return <div>Loading...</div>;
   if (profileError) return <div>Error loading profile: {profileError.message}</div>;

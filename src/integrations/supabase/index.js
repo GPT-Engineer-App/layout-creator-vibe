@@ -5,11 +5,52 @@ const supabaseUrl = import.meta.env.VITE_SUPABASE_PROJECT_URL;
 const supabaseKey = import.meta.env.VITE_SUPABASE_API_KEY;
 export const supabase = createClient(supabaseUrl, supabaseKey);
 
+// Set up real-time listeners
+export const setupRealtimeListeners = (callback) => {
+  const channel = supabase
+    .channel('db-changes')
+    .on('postgres_changes', { event: 'INSERT', schema: 'public' }, (payload) => {
+      console.log('Insert received!', payload);
+      callback('INSERT', payload);
+    })
+    .on('postgres_changes', { event: 'UPDATE', schema: 'public' }, (payload) => {
+      console.log('Update received!', payload);
+      callback('UPDATE', payload);
+    })
+    .subscribe();
+
+  return () => {
+    supabase.removeChannel(channel);
+  };
+};
+
 import React from "react";
 export const queryClient = new QueryClient();
 export function SupabaseProvider({ children }) {
-    return React.createElement(QueryClientProvider, { client: queryClient }, children);
+    const [realtimeData, setRealtimeData] = React.useState(null);
+
+    React.useEffect(() => {
+        const handleRealtimeEvent = (eventType, payload) => {
+            setRealtimeData({ eventType, payload });
+        };
+
+        const unsubscribe = setupRealtimeListeners(handleRealtimeEvent);
+
+        return () => {
+            unsubscribe();
+        };
+    }, []);
+
+    return React.createElement(QueryClientProvider, { client: queryClient }, 
+        React.createElement(RealtimeContext.Provider, { value: realtimeData }, 
+            children
+        )
+    );
 }
+
+export const RealtimeContext = React.createContext(null);
+
+export const useRealtimeData = () => React.useContext(RealtimeContext);
 
 const fromSupabase = async (query) => {
     const { data, error } = await query;
