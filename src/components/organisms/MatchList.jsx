@@ -1,18 +1,8 @@
-import { useState, useCallback } from "react";
+import { useState } from "react";
 import MatchCard from "./MatchCard";
 
 const MatchList = ({ matches }) => {
   const [openMatchIndex, setOpenMatchIndex] = useState(0);
-
-  const handleToggle = useCallback((index) => {
-    if (index === openMatchIndex) {
-      setOpenMatchIndex(-1);
-    } else {
-      setTimeout(() => {
-        setOpenMatchIndex(index);
-      }, 300); // 300ms delay to allow smooth closing of the previous match
-    }
-  }, [openMatchIndex]);
 
   return (
     <div className="w-[70%] bg-white rounded-lg shadow-md p-6">
@@ -23,7 +13,7 @@ const MatchList = ({ matches }) => {
             key={index} 
             {...match}
             isExpanded={index === openMatchIndex}
-            onToggle={() => handleToggle(index)}
+            onToggle={() => setOpenMatchIndex(index === openMatchIndex ? -1 : index)}
             matchReason={match.matchReason || "Match reason not provided"}
             potentialCollaboration={match.potentialCollaboration || "Potential collaboration not specified"}
             complimentarySkills={match.complimentarySkills || "Complimentary skills not listed"}
