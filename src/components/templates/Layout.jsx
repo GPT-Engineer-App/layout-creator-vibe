@@ -1,3 +1,4 @@
+import React, { useState } from 'react';
 import ProfileCard from "../organisms/ProfileCard";
 
 const Layout = ({ children }) => {
