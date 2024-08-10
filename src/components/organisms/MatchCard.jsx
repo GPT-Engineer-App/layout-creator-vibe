@@ -1,33 +1,10 @@
 import UserIcon from "../atoms/UserIcon";
 import { ExternalLink } from "lucide-react";
 import { motion } from "framer-motion";
-import { useState, useEffect } from "react";
-import { toPng } from 'html-to-image';
 
 const MatchCard = ({ name, country, experience, matchScore, matchReason, potentialCollaboration, complimentarySkills, sharedInterests, communicationCompatibility, geographicalSynergy, isExpanded, isTransitioning, onToggle }) => {
-  const [cardRef, setCardRef] = useState(null);
-
-  useEffect(() => {
-    if (cardRef && isExpanded) {
-      const timer = setTimeout(() => {
-        toPng(cardRef, { cacheBust: true })
-          .then((dataUrl) => {
-            const link = document.createElement('a');
-            link.download = `${name.replace(/\s+/g, '-').toLowerCase()}-match-card.png`;
-            link.href = dataUrl;
-            link.click();
-          })
-          .catch((err) => {
-            console.error('Error generating image:', err);
-          });
-      }, 500); // Delay to ensure the card is fully expanded
-      return () => clearTimeout(timer);
-    }
-  }, [cardRef, isExpanded, name]);
-
   return (
     <div 
-      ref={setCardRef}
       className={`border rounded-lg p-4 cursor-pointer transition-all duration-300 ${isExpanded ? 'bg-gray-50' : ''}`}
       onClick={onToggle}
     >
