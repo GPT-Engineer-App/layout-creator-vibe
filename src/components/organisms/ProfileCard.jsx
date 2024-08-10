@@ -21,11 +21,9 @@ const ProfileCard = ({ profile }) => {
 
       <div className="mb-4">
         <ProfileSection title="Business Goals">
-          <div className="space-y-1">
-            {profile.business_goals.map((goal, idx) => (
-              <p key={idx}>{goal}</p>
-            ))}
-          </div>
+          {profile.business_goals.map((goal, idx) => (
+            <span key={idx}>{goal}</span>
+          ))}
         </ProfileSection>
       </div>
       <div className="grid grid-cols-2 gap-4">
@@ -33,13 +31,11 @@ const ProfileCard = ({ profile }) => {
           .filter((section) => section.title !== "Business Goals")
           .map((section, index) => (
             <ProfileSection key={index} title={section.title}>
-              <div className="space-y-1">
-                {Array.isArray(section.content) ? (
-                  section.content.map((item, idx) => <p key={idx}>{item}</p>)
-                ) : (
-                  <p>{section.content}</p>
-                )}
-              </div>
+              {Array.isArray(section.content) ? (
+                section.content.map((item, idx) => <span key={idx}>{item}</span>)
+              ) : (
+                <span>{section.content}</span>
+              )}
             </ProfileSection>
           ))}
       </div>
