@@ -34,12 +34,12 @@ const MatchCard = ({ name, country, experience, matchScore, matchReason, potenti
       >
         <div className={`mt-4 pt-4 border-t ${isTransitioning ? 'opacity-0' : 'opacity-100'} transition-opacity duration-300`}>
           <div className="grid grid-cols-2 gap-4">
-            <ExpandedSection title="Match Reason Summary" content={matchReason} />
-            <ExpandedSection title="Potential Collaboration" content={potentialCollaboration} />
-            <ExpandedSection title="Complimentary Skills" content={complimentarySkills} />
-            <ExpandedSection title="Shared Interests" content={sharedInterests} />
-            <ExpandedSection title="Communication Compatibility" content={communicationCompatibility} />
-            <ExpandedSection title="Geographical Synergy" content={geographicalSynergy} />
+            <ExpandedSection title="Match Reason Summary" content={[matchReason]} />
+            <ExpandedSection title="Potential Collaboration" content={[potentialCollaboration]} />
+            <ExpandedSection title="Complimentary Skills" content={complimentarySkills.split(', ')} />
+            <ExpandedSection title="Shared Interests" content={sharedInterests.split(', ')} />
+            <ExpandedSection title="Communication Compatibility" content={[communicationCompatibility]} />
+            <ExpandedSection title="Geographical Synergy" content={[geographicalSynergy]} />
           </div>
           <div className="mt-4 grid grid-cols-2 gap-4">
             <ExternalLinkButton text="LinkedIn Profile" color="bg-blue-500" />
@@ -54,7 +54,19 @@ const MatchCard = ({ name, country, experience, matchScore, matchReason, potenti
 const ExpandedSection = ({ title, content }) => (
   <div className="border p-2 rounded">
     <h4 className="font-semibold mb-1">{title}</h4>
-    <p className="text-sm">{content}</p>
+    <div className="flex flex-wrap gap-2">
+      {Array.isArray(content) ? (
+        content.map((item, index) => (
+          <span key={index} className="bg-gray-100 rounded-md px-2 py-1 text-sm">
+            {item}
+          </span>
+        ))
+      ) : (
+        <span className="bg-gray-100 rounded-md px-2 py-1 text-sm w-full">
+          {content}
+        </span>
+      )}
+    </div>
   </div>
 );
 
