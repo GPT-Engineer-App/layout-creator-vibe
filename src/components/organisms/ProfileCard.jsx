@@ -17,7 +17,7 @@ const ProfileCard = ({ profile }) => {
 
   return (
     <div className="h-full bg-white rounded-lg shadow-md p-6 overflow-auto">
-      <h1 className="text-[clamp(1.875rem,5vw,2.25rem)] font-bold text-purple-600 mb-6">Your Profile</h1>
+      <h1 className="text-3xl font-bold text-purple-600 mb-6">Your Profile</h1>
       
       <ProfileHeader 
         name={profile.name} 
