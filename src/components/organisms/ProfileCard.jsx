@@ -6,7 +6,6 @@ const ProfileCard = ({ profile }) => {
 
   const sections = [
     { title: "Key Skills", content: profile.key_skills },
-    { title: "Business Goals", content: profile.business_goals },
     { title: "Interests", content: profile.interests },
     { title: "Communication Preferences", content: [profile.preferred_communication] },
     { title: "Location", content: [profile.location] },
@@ -20,18 +19,29 @@ const ProfileCard = ({ profile }) => {
       
       <ProfileHeader name={profile.name} tagline={profile.career_stage} />
 
+      <div className="mb-4">
+        <ProfileSection title="Business Goals">
+          <div className="space-y-1">
+            {profile.business_goals.map((goal, idx) => (
+              <p key={idx}>{goal}</p>
+            ))}
+          </div>
+        </ProfileSection>
+      </div>
       <div className="grid grid-cols-2 gap-4">
-        {sections.map((section, index) => (
-          <ProfileSection key={index} title={section.title}>
-            <div className="space-y-1">
-              {Array.isArray(section.content) ? (
-                section.content.map((item, idx) => <p key={idx}>{item}</p>)
-              ) : (
-                <p>{section.content}</p>
-              )}
-            </div>
-          </ProfileSection>
-        ))}
+        {sections
+          .filter((section) => section.title !== "Business Goals")
+          .map((section, index) => (
+            <ProfileSection key={index} title={section.title}>
+              <div className="space-y-1">
+                {Array.isArray(section.content) ? (
+                  section.content.map((item, idx) => <p key={idx}>{item}</p>)
+                ) : (
+                  <p>{section.content}</p>
+                )}
+              </div>
+            </ProfileSection>
+          ))}
       </div>
     </div>
   );
