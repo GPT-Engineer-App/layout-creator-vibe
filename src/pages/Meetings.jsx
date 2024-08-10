@@ -29,12 +29,24 @@ const UpcomingDiscoveryCall = () => {
         <CardTitle className="text-xl font-semibold text-purple-600">Upcoming Discovery Call</CardTitle>
       </CardHeader>
       <CardContent>
-        <div className="space-y-2">
-          <p><span className="font-semibold">Date:</span> [Date placeholder]</p>
-          <p><span className="font-semibold">Location:</span> [Location placeholder]</p>
-          <p><span className="font-semibold">Meeting Link:</span> [Link placeholder]</p>
-          <p><span className="font-semibold">Host:</span> [Host placeholder]</p>
-          <div className="mt-4 space-x-2">
+        <div className="space-y-4">
+          <div>
+            <p className="font-semibold">Date:</p>
+            <p>[Date placeholder]</p>
+          </div>
+          <div>
+            <p className="font-semibold">Location:</p>
+            <p>[Location placeholder]</p>
+          </div>
+          <div>
+            <p className="font-semibold">Meeting Link:</p>
+            <p>[Link placeholder]</p>
+          </div>
+          <div>
+            <p className="font-semibold">Host:</p>
+            <p>[Host placeholder]</p>
+          </div>
+          <div className="mt-6 space-x-2">
             <Button variant="outline" className="text-red-500 border-red-500 hover:bg-red-50">
               Cancel
             </Button>
