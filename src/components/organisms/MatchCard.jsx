@@ -1,8 +1,8 @@
-import UserIcon from "../atoms/UserIcon";
 import { ExternalLink } from "lucide-react";
 import { motion } from "framer-motion";
+import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 
-const MatchCard = ({ name, country, experience, matchScore, matchReason, potentialCollaboration, complimentarySkills, sharedInterests, communicationCompatibility, geographicalSynergy, isExpanded, isTransitioning, onToggle }) => {
+const MatchCard = ({ name, country, experience, matchScore, matchReason, potentialCollaboration, complimentarySkills, sharedInterests, communicationCompatibility, geographicalSynergy, isExpanded, isTransitioning, onToggle, imageUrl }) => {
   return (
     <div 
       className={`border rounded-lg p-4 cursor-pointer transition-all duration-300 ${isExpanded ? 'bg-gray-50' : ''}`}
@@ -10,7 +10,10 @@ const MatchCard = ({ name, country, experience, matchScore, matchReason, potenti
     >
       <div className="flex items-center justify-between">
         <div className="flex items-center">
-          <UserIcon size="small" />
+          <Avatar className="h-12 w-12">
+            <AvatarImage src={imageUrl} alt={name} />
+            <AvatarFallback>{name.charAt(0)}</AvatarFallback>
+          </Avatar>
           <div className="ml-4">
             <h3 className="text-lg font-semibold">
               {name} <span className="ml-2">{country}</span>
