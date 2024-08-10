@@ -1,9 +1,17 @@
 import ProfileCard from "../organisms/ProfileCard";
+import { useMatchmakerProfile } from "../../integrations/supabase";
 
 const Layout = ({ children }) => {
+  const profileId = "7f4c2fb8-d3e6-4671-b45e-f2ffb76a1d12";
+  const { data: profile, isLoading, error } = useMatchmakerProfile(profileId);
+
+  if (isLoading) return <div>Loading...</div>;
+  if (error) return <div>Error: {error.message}</div>;
+  if (!profile) return <div>No profile found</div>;
+
   const profileData = {
-    name: "[Member Name]",
-    tagline: "Career Stage Tagline",
+    name: profile.name,
+    tagline: profile.career_stage,
   };
 
   return (
