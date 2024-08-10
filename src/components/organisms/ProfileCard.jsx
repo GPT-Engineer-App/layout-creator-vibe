@@ -40,16 +40,17 @@ const ProfileCard = ({ profile }) => {
           </ProfileSection>
         ))}
       </div>
-      <div className="grid grid-cols-1 gap-4 mt-4">
-        {singleColumnSections.map((section, index) => (
-          <ProfileSection key={index} title={section.title}>
-            {Array.isArray(section.content) ? (
-              section.content.map((item, idx) => <span key={idx}>{item}</span>)
-            ) : (
-              <span>{section.content}</span>
-            )}
-          </ProfileSection>
-        ))}
+      <div className="grid grid-cols-2 gap-4 mt-4">
+        <ProfileSection title="Business Goals">
+          {profile.business_goals.map((goal, idx) => (
+            <span key={idx}>{goal}</span>
+          ))}
+        </ProfileSection>
+        <ProfileSection title="Hobbies">
+          {profile.hobbies.map((hobby, idx) => (
+            <span key={idx}>{hobby}</span>
+          ))}
+        </ProfileSection>
       </div>
     </div>
   );
