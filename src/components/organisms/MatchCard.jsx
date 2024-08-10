@@ -13,13 +13,13 @@ const MatchCard = ({ name, country, experience, matchScore, matchReason, potenti
           <UserIcon size="small" />
           <div className="ml-4">
             <h3 className="text-lg font-semibold">
-              {name} <span className="ml-2">{country}</span>
+              {name || "No Name"} <span className="ml-2">{country || "Unknown"}</span>
             </h3>
-            <p className="text-sm text-gray-600">{experience}</p>
+            <p className="text-sm text-gray-600">{experience || "Experience not specified"}</p>
           </div>
         </div>
         <div className="text-right">
-          <span className="font-bold text-lg">{matchScore}/10</span>
+          <span className="font-bold text-lg">{matchScore || "N/A"}/10</span>
           <p className="text-sm text-gray-600">Match Score</p>
         </div>
       </div>
@@ -34,12 +34,12 @@ const MatchCard = ({ name, country, experience, matchScore, matchReason, potenti
       >
         <div className={`mt-4 pt-4 border-t ${isTransitioning ? 'opacity-0' : 'opacity-100'} transition-opacity duration-300`}>
           <div className="grid grid-cols-2 gap-4">
-            <ExpandedSection title="Match Reason Summary" content={matchReason} />
-            <ExpandedSection title="Potential Collaboration" content={potentialCollaboration} />
-            <ExpandedSection title="Complimentary Skills" content={complimentarySkills} />
-            <ExpandedSection title="Shared Interests" content={sharedInterests} />
-            <ExpandedSection title="Communication Compatibility" content={communicationCompatibility} />
-            <ExpandedSection title="Geographical Synergy" content={geographicalSynergy} />
+            <ExpandedSection title="Match Reason Summary" content={matchReason || "No match reason provided"} />
+            <ExpandedSection title="Potential Collaboration" content={potentialCollaboration || "No potential collaboration specified"} />
+            <ExpandedSection title="Complimentary Skills" content={complimentarySkills || "No complimentary skills listed"} />
+            <ExpandedSection title="Shared Interests" content={sharedInterests || "No shared interests found"} />
+            <ExpandedSection title="Communication Compatibility" content={communicationCompatibility || "Communication compatibility not specified"} />
+            <ExpandedSection title="Geographical Synergy" content={geographicalSynergy || "Geographical synergy not provided"} />
           </div>
           <div className="mt-4 grid grid-cols-2 gap-4">
             <ExternalLinkButton text="LinkedIn Profile" color="bg-blue-500" />
