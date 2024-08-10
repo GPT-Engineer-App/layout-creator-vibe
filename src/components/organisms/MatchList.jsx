@@ -1,8 +1,25 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import MatchCard from "./MatchCard";
 
 const MatchList = ({ matches }) => {
-  const [openMatchIndex, setOpenMatchIndex] = useState(0);
+  const [expandedMatchIndex, setExpandedMatchIndex] = useState(null);
+  const [isTransitioning, setIsTransitioning] = useState(false);
+
+  const handleExpand = (index) => {
+    if (expandedMatchIndex === index) return;
+    
+    setIsTransitioning(true);
+    setExpandedMatchIndex(null);
+    setTimeout(() => {
+      setExpandedMatchIndex(index);
+      setIsTransitioning(false);
+    }, 300); // Match this with the CSS transition duration
+  };
+
+  useEffect(() => {
+    // Set the first match as expanded initially
+    setExpandedMatchIndex(0);
+  }, []);
 
   return (
     <div className="w-[70%] bg-white rounded-lg shadow-md p-6">
@@ -12,8 +29,9 @@ const MatchList = ({ matches }) => {
           <MatchCard 
             key={index} 
             {...match}
-            isExpanded={index === openMatchIndex}
-            onToggle={() => setOpenMatchIndex(index === openMatchIndex ? -1 : index)}
+            isExpanded={index === expandedMatchIndex}
+            isTransitioning={isTransitioning}
+            onToggle={() => handleExpand(index)}
             matchReason={match.matchReason || "Match reason not provided"}
             potentialCollaboration={match.potentialCollaboration || "Potential collaboration not specified"}
             complimentarySkills={match.complimentarySkills || "Complimentary skills not listed"}

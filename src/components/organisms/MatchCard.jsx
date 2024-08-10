@@ -1,11 +1,11 @@
 import UserIcon from "../atoms/UserIcon";
 import { ExternalLink } from "lucide-react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 
-const MatchCard = ({ name, country, experience, matchScore, matchReason, potentialCollaboration, complimentarySkills, sharedInterests, communicationCompatibility, geographicalSynergy, isExpanded, onToggle }) => {
+const MatchCard = ({ name, country, experience, matchScore, matchReason, potentialCollaboration, complimentarySkills, sharedInterests, communicationCompatibility, geographicalSynergy, isExpanded, isTransitioning, onToggle }) => {
   return (
     <div 
-      className="border rounded-lg p-4 cursor-pointer"
+      className={`border rounded-lg p-4 cursor-pointer transition-all duration-300 ${isExpanded ? 'bg-gray-50' : ''}`}
       onClick={onToggle}
     >
       <div className="flex items-center justify-between">
@@ -23,31 +23,30 @@ const MatchCard = ({ name, country, experience, matchScore, matchReason, potenti
           <p className="text-sm text-gray-600">Match Score</p>
         </div>
       </div>
-      <AnimatePresence>
-        {isExpanded && (
-          <motion.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: "auto" }}
-            exit={{ opacity: 0, height: 0 }}
-            transition={{ duration: 0.3 }}
-          >
-            <div className="mt-4 pt-4 border-t">
-              <div className="grid grid-cols-2 gap-4">
-                <ExpandedSection title="Match Reason Summary" content={matchReason} />
-                <ExpandedSection title="Potential Collaboration" content={potentialCollaboration} />
-                <ExpandedSection title="Complimentary Skills" content={complimentarySkills} />
-                <ExpandedSection title="Shared Interests" content={sharedInterests} />
-                <ExpandedSection title="Communication Compatibility" content={communicationCompatibility} />
-                <ExpandedSection title="Geographical Synergy" content={geographicalSynergy} />
-              </div>
-              <div className="mt-4 grid grid-cols-2 gap-4">
-                <ExternalLinkButton text="LinkedIn Profile" color="bg-blue-500" />
-                <ExternalLinkButton text="Member Profile" color="bg-pink-500" />
-              </div>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+      <motion.div
+        className="overflow-hidden"
+        initial={false}
+        animate={{ 
+          height: isExpanded ? "auto" : 0,
+          opacity: isExpanded ? 1 : 0
+        }}
+        transition={{ duration: 0.3 }}
+      >
+        <div className={`mt-4 pt-4 border-t ${isTransitioning ? 'opacity-0' : 'opacity-100'} transition-opacity duration-300`}>
+          <div className="grid grid-cols-2 gap-4">
+            <ExpandedSection title="Match Reason Summary" content={matchReason} />
+            <ExpandedSection title="Potential Collaboration" content={potentialCollaboration} />
+            <ExpandedSection title="Complimentary Skills" content={complimentarySkills} />
+            <ExpandedSection title="Shared Interests" content={sharedInterests} />
+            <ExpandedSection title="Communication Compatibility" content={communicationCompatibility} />
+            <ExpandedSection title="Geographical Synergy" content={geographicalSynergy} />
+          </div>
+          <div className="mt-4 grid grid-cols-2 gap-4">
+            <ExternalLinkButton text="LinkedIn Profile" color="bg-blue-500" />
+            <ExternalLinkButton text="Member Profile" color="bg-pink-500" />
+          </div>
+        </div>
+      </motion.div>
     </div>
   );
 };
