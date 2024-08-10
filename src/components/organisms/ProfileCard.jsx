@@ -1,3 +1,4 @@
+import React from 'react';
 import ProfileHeader from "../molecules/ProfileHeader";
 import ProfileSection from "../molecules/ProfileSection";
 
