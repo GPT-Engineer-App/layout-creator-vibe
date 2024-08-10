@@ -1,3 +1,5 @@
+import React from 'react';
+
 const ProfileSection = ({ title, children }) => {
   return (
     <div className="h-full">
