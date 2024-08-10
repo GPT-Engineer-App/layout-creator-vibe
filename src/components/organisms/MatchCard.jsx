@@ -35,7 +35,7 @@ const MatchCard = ({ name, country, experience, matchScore, matchReason, potenti
             <ExpandedSection title="Communication Compatibility" content={communicationCompatibility} />
             <ExpandedSection title="Geographical Synergy" content={geographicalSynergy} />
           </div>
-          <div className="mt-4 flex justify-between">
+          <div className="mt-4 grid grid-cols-2 gap-4">
             <ExternalLinkButton text="LinkedIn Profile" color="bg-blue-500" />
             <ExternalLinkButton text="Member Profile" color="bg-pink-500" />
           </div>
@@ -53,7 +53,7 @@ const ExpandedSection = ({ title, content }) => (
 );
 
 const ExternalLinkButton = ({ text, color }) => (
-  <button className={`${color} text-white px-4 py-2 rounded flex items-center`}>
+  <button className={`${color} text-white px-4 py-2 rounded flex items-center justify-center w-full`}>
     {text} <ExternalLink className="ml-2 h-4 w-4" />
   </button>
 );
