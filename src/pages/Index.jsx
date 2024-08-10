@@ -88,7 +88,10 @@ const MatchComponent = ({ name, country, experience, matchScore }) => {
   const [isExpanded, setIsExpanded] = useState(false);
 
   return (
-    <div className="border rounded-lg p-4">
+    <div 
+      className="border rounded-lg p-4 cursor-pointer"
+      onClick={() => setIsExpanded(!isExpanded)}
+    >
       <div className="flex items-center justify-between">
         <div className="flex items-center">
           <div className="bg-gray-200 rounded-full p-2 mr-4">
@@ -101,14 +104,9 @@ const MatchComponent = ({ name, country, experience, matchScore }) => {
             <p className="text-sm text-gray-600">{experience}</p>
           </div>
         </div>
-        <div className="flex items-center">
-          <span className="font-bold text-lg mr-4">{matchScore}/10</span>
-          <button
-            onClick={() => setIsExpanded(!isExpanded)}
-            className="text-blue-500"
-          >
-            {isExpanded ? <ChevronUp /> : <ChevronDown />}
-          </button>
+        <div className="text-right">
+          <span className="font-bold text-lg">{matchScore}/10</span>
+          <p className="text-sm text-gray-600">Match Score</p>
         </div>
       </div>
       {isExpanded && (
