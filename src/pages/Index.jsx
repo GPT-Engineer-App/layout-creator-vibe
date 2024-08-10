@@ -1,4 +1,5 @@
-import { User } from "lucide-react";
+import { User, ChevronDown, ChevronUp } from "lucide-react";
+import { useState } from "react";
 
 const Index = () => {
   return (
@@ -57,11 +58,65 @@ const Index = () => {
         {/* Top Matches Section */}
         <div className="w-[70%] bg-white rounded-lg shadow-md p-6">
           <h1 className="text-3xl font-bold text-blue-500 mb-6">Top Matches</h1>
-          <div className="border rounded p-4 h-full">
-            {/* Content for Top Matches will be added later */}
+          <div className="space-y-4">
+            <MatchComponent
+              name="John Doe"
+              country="🇺🇸"
+              experience="Senior Developer"
+              matchScore={8}
+            />
+            <MatchComponent
+              name="Alice Smith"
+              country="🇬🇧"
+              experience="Product Manager"
+              matchScore={9}
+            />
+            <MatchComponent
+              name="Carlos Rodriguez"
+              country="🇪🇸"
+              experience="UX Designer"
+              matchScore={7}
+            />
           </div>
         </div>
       </div>
+    </div>
+  );
+};
+
+const MatchComponent = ({ name, country, experience, matchScore }) => {
+  const [isExpanded, setIsExpanded] = useState(false);
+
+  return (
+    <div className="border rounded-lg p-4">
+      <div className="flex items-center justify-between">
+        <div className="flex items-center">
+          <div className="bg-gray-200 rounded-full p-2 mr-4">
+            <User className="w-8 h-8 text-gray-600" />
+          </div>
+          <div>
+            <h3 className="text-lg font-semibold">
+              {name} <span className="ml-2">{country}</span>
+            </h3>
+            <p className="text-sm text-gray-600">{experience}</p>
+          </div>
+        </div>
+        <div className="flex items-center">
+          <span className="font-bold text-lg mr-4">{matchScore}/10</span>
+          <button
+            onClick={() => setIsExpanded(!isExpanded)}
+            className="text-blue-500"
+          >
+            {isExpanded ? <ChevronUp /> : <ChevronDown />}
+          </button>
+        </div>
+      </div>
+      {isExpanded && (
+        <div className="mt-4 pt-4 border-t">
+          {/* Expanded content will be added here later */}
+          <p>Expanded details will be shown here.</p>
+        </div>
+      )}
     </div>
   );
 };
