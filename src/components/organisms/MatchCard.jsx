@@ -1,15 +1,12 @@
-import { useState } from "react";
 import UserIcon from "../atoms/UserIcon";
 import { ExternalLink } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
-const MatchCard = ({ name, country, experience, matchScore, matchReason, potentialCollaboration, complimentarySkills, sharedInterests, communicationCompatibility, geographicalSynergy }) => {
-  const [isExpanded, setIsExpanded] = useState(false);
-
+const MatchCard = ({ name, country, experience, matchScore, matchReason, potentialCollaboration, complimentarySkills, sharedInterests, communicationCompatibility, geographicalSynergy, isExpanded, onToggle }) => {
   return (
     <div 
       className="border rounded-lg p-4 cursor-pointer"
-      onClick={() => setIsExpanded(!isExpanded)}
+      onClick={onToggle}
     >
       <div className="flex items-center justify-between">
         <div className="flex items-center">
