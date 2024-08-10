@@ -25,7 +25,7 @@ const ProfileCard = ({ profile }) => {
         imageUrl={profile.image_url} 
       />
 
-      <div className="grid grid-cols-2 gap-4 mb-4">
+      <div className="grid grid-cols-2 gap-4">
         <ProfileSection title="Business Goals">
           {profile.business_goals.map((goal, index) => (
             <React.Fragment key={index}>{goal}</React.Fragment>
@@ -36,9 +36,6 @@ const ProfileCard = ({ profile }) => {
             <React.Fragment key={index}>{skill}</React.Fragment>
           ))}
         </ProfileSection>
-      </div>
-
-      <div className="grid grid-cols-2 gap-4 mb-4">
         <ProfileSection title="Interests">
           {profile.interests.map((interest, index) => (
             <React.Fragment key={index}>{interest}</React.Fragment>
@@ -49,18 +46,12 @@ const ProfileCard = ({ profile }) => {
             <React.Fragment key={index}>{hobby}</React.Fragment>
           ))}
         </ProfileSection>
-      </div>
-
-      <div className="grid grid-cols-2 gap-4">
         <ProfileSection title="Communication Preferences">
           {profile.preferred_communication}
         </ProfileSection>
         <ProfileSection title="Location">
           {profile.location}
         </ProfileSection>
-      </div>
-
-      <div className="mt-4">
         <ProfileSection title="Industry">
           {profile.industry}
         </ProfileSection>

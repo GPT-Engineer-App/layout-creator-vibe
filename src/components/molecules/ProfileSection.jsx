@@ -7,9 +7,11 @@ const ProfileSection = ({ title, children }) => {
       <div className="border rounded p-4 h-[calc(100%-2rem)] overflow-auto">
         <div className="flex flex-col space-y-2">
           {React.Children.map(children, child => (
-            <span className="bg-gray-100 px-3 py-2 text-sm">
-              {child}
-            </span>
+            <div className="flex">
+              <span className="bg-gray-100 px-3 py-2 text-sm flex-1 truncate">
+                {child}
+              </span>
+            </div>
           ))}
         </div>
       </div>
