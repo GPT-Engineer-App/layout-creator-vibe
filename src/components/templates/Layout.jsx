@@ -9,16 +9,11 @@ const Layout = ({ children }) => {
   if (error) return <div>Error: {error.message}</div>;
   if (!profile) return <div>No profile found</div>;
 
-  const profileData = {
-    name: profile.name,
-    tagline: profile.career_stage,
-  };
-
   return (
     <div className="min-h-screen bg-gray-100 p-8">
       <div className="flex h-full">
         <div className="w-[30%] mr-4">
-          <ProfileCard {...profileData} />
+          <ProfileCard profile={profile} />
         </div>
         <div className="w-[70%]">{children}</div>
       </div>
