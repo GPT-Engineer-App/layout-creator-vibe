@@ -9,23 +9,31 @@ const ProfileCard = ({ name, tagline }) => {
       <ProfileHeader name={name} tagline={tagline} />
 
       <ProfileSection title="Key Skills">
-        {/* Add content here */}
+        <ul className="list-disc list-inside">
+          <li>Web Development</li>
+          <li>Project Management</li>
+          <li>Data Analysis</li>
+        </ul>
       </ProfileSection>
 
       <ProfileSection title="Business Goals">
-        {/* Add content here */}
+        <p>Expand network in tech industry and collaborate on innovative projects.</p>
       </ProfileSection>
 
       <ProfileSection title="Interests">
-        {/* Add content here */}
+        <ul className="list-disc list-inside">
+          <li>Artificial Intelligence</li>
+          <li>Sustainable Technology</li>
+          <li>Entrepreneurship</li>
+        </ul>
       </ProfileSection>
 
       <ProfileSection title="Communication Preferences">
-        {/* Add content here */}
+        <p>Prefer async communication with weekly video calls.</p>
       </ProfileSection>
 
       <ProfileSection title="Location">
-        {/* Add content here */}
+        <p>San Francisco, CA (PST timezone)</p>
       </ProfileSection>
     </div>
   );
