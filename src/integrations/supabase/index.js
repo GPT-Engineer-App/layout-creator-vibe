@@ -310,11 +310,19 @@ export const useDeleteMatchmakerProfile = () => {
     });
 };
 
-export const useUserMatchesForProfile = (profileId) => useQuery({
-    queryKey: ['user_matches', 'profile', profileId],
+export const useUserMatchesWithDetailsForProfile = (profileId) => useQuery({
+    queryKey: ['user_matches', 'with_details', 'profile', profileId],
     queryFn: () => fromSupabase(supabase
         .from('user_matches')
-        .select('*')
+        .select(`
+            *,
+            matched_profile:matchmaker_profiles!matched_profile_id (
+                name,
+                image_url,
+                key_skills,
+                industry
+            )
+        `)
         .eq('profile_id', profileId)
     )
 });

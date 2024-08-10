@@ -1,10 +1,10 @@
 import MatchList from "../components/organisms/MatchList";
-import { useMatchmakerProfile, useUserMatchesForProfile } from "../integrations/supabase";
+import { useMatchmakerProfile, useUserMatchesWithDetailsForProfile } from "../integrations/supabase";
 
 const Index = () => {
   const profileId = "7f4c2fb8-d3e6-4671-b45e-f2ffb76a1d12";
   const { data: profile, isLoading: profileLoading, error: profileError } = useMatchmakerProfile(profileId);
-  const { data: userMatches, isLoading: matchesLoading, error: matchesError } = useUserMatchesForProfile(profileId);
+  const { data: userMatches, isLoading: matchesLoading, error: matchesError } = useUserMatchesWithDetailsForProfile(profileId);
 
   if (profileLoading || matchesLoading) return <div>Loading...</div>;
   if (profileError) return <div>Error loading profile: {profileError.message}</div>;
@@ -13,9 +13,9 @@ const Index = () => {
   if (!userMatches) return <div>No matches found</div>;
 
   const processedMatches = userMatches.map(match => ({
-    name: match.matched_profile_id, // You might want to fetch the actual name using this ID
+    name: match.matched_profile.name,
     country: "🌍", // You might want to add a country field to your matches
-    experience: "Not specified", // This information is not in the user_matches table
+    experience: match.experience_level || "Not specified",
     matchScore: match.matching_score,
     matchReason: match.explanation,
     potentialCollaboration: match.potential_collaboration,
@@ -23,6 +23,9 @@ const Index = () => {
     sharedInterests: match.shared_interests ? match.shared_interests.join(", ") : "Not specified",
     communicationCompatibility: match.communication_compatibility,
     geographicalSynergy: match.geographical_synergy,
+    industry: match.matched_profile.industry,
+    imageUrl: match.matched_profile.image_url,
+    keySkills: match.matched_profile.key_skills ? match.matched_profile.key_skills.join(", ") : "Not specified",
   }));
 
   return (
