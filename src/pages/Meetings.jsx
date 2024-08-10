@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 const Meetings = () => {
-  const [hasDiscoveryCalls, setHasDiscoveryCalls] = useState(true);
+  const [hasDiscoveryCalls, setHasDiscoveryCalls] = useState(false);
 
   return (
     <div className="bg-white rounded-lg shadow-md p-6">
@@ -16,9 +16,8 @@ const Meetings = () => {
             </CardTitle>
           </CardHeader>
         </Card>
-      ) : (
-        <UpcomingDiscoveryCall />
-      )}
+      ) : null}
+      <UpcomingDiscoveryCall />
     </div>
   );
 };
