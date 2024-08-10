@@ -11,27 +11,27 @@ const ProfileCard = ({ profile }) => {
       <ProfileHeader name={profile.name} tagline={profile.career_stage} />
 
       <ProfileSection title="Key Skills">
-        <ul className="list-disc pl-5">
+        <div className="space-y-1">
           {profile.key_skills.map((skill, index) => (
-            <li key={index}>{skill}</li>
+            <p key={index}>{skill}</p>
           ))}
-        </ul>
+        </div>
       </ProfileSection>
 
       <ProfileSection title="Business Goals">
-        <ul className="list-disc pl-5">
+        <div className="space-y-1">
           {profile.business_goals.map((goal, index) => (
-            <li key={index}>{goal}</li>
+            <p key={index}>{goal}</p>
           ))}
-        </ul>
+        </div>
       </ProfileSection>
 
       <ProfileSection title="Interests">
-        <ul className="list-disc pl-5">
+        <div className="space-y-1">
           {profile.interests.map((interest, index) => (
-            <li key={index}>{interest}</li>
+            <p key={index}>{interest}</p>
           ))}
-        </ul>
+        </div>
       </ProfileSection>
 
       <ProfileSection title="Communication Preferences">
@@ -47,11 +47,11 @@ const ProfileCard = ({ profile }) => {
       </ProfileSection>
 
       <ProfileSection title="Hobbies">
-        <ul className="list-disc pl-5">
+        <div className="space-y-1">
           {profile.hobbies.map((hobby, index) => (
-            <li key={index}>{hobby}</li>
+            <p key={index}>{hobby}</p>
           ))}
-        </ul>
+        </div>
       </ProfileSection>
     </div>
   );
