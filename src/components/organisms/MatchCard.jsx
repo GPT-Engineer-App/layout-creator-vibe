@@ -1,6 +1,5 @@
 import { useState } from "react";
 import UserIcon from "../atoms/UserIcon";
-import ExpandIcon from "../atoms/ExpandIcon";
 
 const MatchCard = ({ name, country, experience, matchScore }) => {
   const [isExpanded, setIsExpanded] = useState(false);
@@ -31,9 +30,6 @@ const MatchCard = ({ name, country, experience, matchScore }) => {
           <p>Expanded details will be shown here.</p>
         </div>
       )}
-      <div className="mt-2 text-right">
-        <ExpandIcon isExpanded={isExpanded} />
-      </div>
     </div>
   );
 };
