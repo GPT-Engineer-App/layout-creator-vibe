@@ -1,7 +1,8 @@
 import { useState } from "react";
 import UserIcon from "../atoms/UserIcon";
+import { ExternalLink } from "lucide-react";
 
-const MatchCard = ({ name, country, experience, matchScore }) => {
+const MatchCard = ({ name, country, experience, matchScore, matchReason, potentialCollaboration, complimentarySkills, sharedInterests, communicationCompatibility, geographicalSynergy }) => {
   const [isExpanded, setIsExpanded] = useState(false);
 
   return (
@@ -26,12 +27,35 @@ const MatchCard = ({ name, country, experience, matchScore }) => {
       </div>
       {isExpanded && (
         <div className="mt-4 pt-4 border-t">
-          {/* Expanded content will be added here later */}
-          <p>Expanded details will be shown here.</p>
+          <div className="grid grid-cols-2 gap-4">
+            <ExpandedSection title="Match Reason Summary" content={matchReason} />
+            <ExpandedSection title="Potential Collaboration" content={potentialCollaboration} />
+            <ExpandedSection title="Complimentary Skills" content={complimentarySkills} />
+            <ExpandedSection title="Shared Interests" content={sharedInterests} />
+            <ExpandedSection title="Communication Compatibility" content={communicationCompatibility} />
+            <ExpandedSection title="Geographical Synergy" content={geographicalSynergy} />
+          </div>
+          <div className="mt-4 flex justify-between">
+            <ExternalLinkButton text="LinkedIn Profile" color="bg-blue-500" />
+            <ExternalLinkButton text="Member Profile" color="bg-pink-500" />
+          </div>
         </div>
       )}
     </div>
   );
 };
+
+const ExpandedSection = ({ title, content }) => (
+  <div className="border p-2 rounded">
+    <h4 className="font-semibold mb-1">{title}</h4>
+    <p className="text-sm">{content}</p>
+  </div>
+);
+
+const ExternalLinkButton = ({ text, color }) => (
+  <button className={`${color} text-white px-4 py-2 rounded flex items-center`}>
+    {text} <ExternalLink className="ml-2 h-4 w-4" />
+  </button>
+);
 
 export default MatchCard;
