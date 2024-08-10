@@ -309,3 +309,12 @@ export const useDeleteMatchmakerProfile = () => {
         },
     });
 };
+
+export const useUserMatchesForProfile = (profileId) => useQuery({
+    queryKey: ['user_matches', 'profile', profileId],
+    queryFn: () => fromSupabase(supabase
+        .from('user_matches')
+        .select('*')
+        .eq('profile_id', profileId)
+    )
+});

@@ -1,31 +1,28 @@
 import MatchList from "../components/organisms/MatchList";
-import { useMatchmakerProfile, useMatchmakerProfiles } from "../integrations/supabase";
+import { useMatchmakerProfile, useUserMatchesForProfile } from "../integrations/supabase";
 
 const Index = () => {
   const profileId = "7f4c2fb8-d3e6-4671-b45e-f2ffb76a1d12";
   const { data: profile, isLoading: profileLoading, error: profileError } = useMatchmakerProfile(profileId);
-  const { data: matchmakerProfiles, isLoading: matchesLoading, error: matchesError } = useMatchmakerProfiles();
-
-  console.log("Matchmaker Profile:", profile);
-  console.log("Matchmaker Profiles:", matchmakerProfiles);
+  const { data: userMatches, isLoading: matchesLoading, error: matchesError } = useUserMatchesForProfile(profileId);
 
   if (profileLoading || matchesLoading) return <div>Loading...</div>;
   if (profileError) return <div>Error loading profile: {profileError.message}</div>;
   if (matchesError) return <div>Error loading matches: {matchesError.message}</div>;
   if (!profile) return <div>No profile found</div>;
-  if (!matchmakerProfiles) return <div>No matches found</div>;
+  if (!userMatches) return <div>No matches found</div>;
 
-  const processedMatches = matchmakerProfiles.filter(p => p.profile_id !== profileId).map(profile => ({
-    name: profile.name,
-    country: "🌍", // You might want to add a country field to your profiles
-    experience: profile.career_stage,
-    matchScore: Math.floor(Math.random() * 3) + 7, // Random score between 7-9 for demo
-    matchReason: `Matched based on ${profile.key_skills.join(", ")}`,
-    potentialCollaboration: profile.business_goals[0],
-    complimentarySkills: profile.key_skills.join(", "),
-    sharedInterests: profile.interests.join(", "),
-    communicationCompatibility: profile.preferred_communication,
-    geographicalSynergy: `Based in ${profile.location}`,
+  const processedMatches = userMatches.map(match => ({
+    name: match.matched_profile_id, // You might want to fetch the actual name using this ID
+    country: "🌍", // You might want to add a country field to your matches
+    experience: "Not specified", // This information is not in the user_matches table
+    matchScore: match.matching_score,
+    matchReason: match.explanation,
+    potentialCollaboration: match.potential_collaboration,
+    complimentarySkills: match.complementary_skills ? match.complementary_skills.join(", ") : "Not specified",
+    sharedInterests: match.shared_interests ? match.shared_interests.join(", ") : "Not specified",
+    communicationCompatibility: match.communication_compatibility,
+    geographicalSynergy: match.geographical_synergy,
   }));
 
   return (
