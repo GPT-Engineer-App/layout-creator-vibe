@@ -178,6 +178,15 @@ export const useDeleteDiscoveryMeeting = () => {
     });
 };
 
+export const useDiscoveryMeetingsForProfile = (profileId) => useQuery({
+    queryKey: ['discovery_meetings', 'profile', profileId],
+    queryFn: () => fromSupabase(supabase
+        .from('discovery_meetings')
+        .select('*')
+        .eq('profile_id', profileId)
+    )
+});
+
 // Hooks for aaa_users
 export const useAaaUsers = () => useQuery({
     queryKey: ['aaa_users'],
