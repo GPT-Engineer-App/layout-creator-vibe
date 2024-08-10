@@ -1,10 +1,16 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Alert, AlertDescription } from "@/components/ui/alert";
 
 const Meetings = () => {
   return (
     <div className="h-full bg-white rounded-lg shadow-md p-6 overflow-auto">
       <h1 className="text-3xl font-bold text-blue-500 mb-6">Upcoming Meetings</h1>
+      <Alert variant="warning" className="mb-6 bg-yellow-100 border-yellow-400">
+        <AlertDescription className="text-yellow-700">
+          Matches will be generated after the first Discovery Call
+        </AlertDescription>
+      </Alert>
       <UpcomingDiscoveryCall />
     </div>
   );
