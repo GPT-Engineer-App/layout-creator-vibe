@@ -6,6 +6,7 @@ const Index = () => {
   const profileData = {
     name: "[Member Name]",
     tagline: "Career Stage Tagline",
+    imageUrl: "https://example.com/path/to/profile-image.jpg", // Add a valid image URL here
   };
 
   const matchesData = [
