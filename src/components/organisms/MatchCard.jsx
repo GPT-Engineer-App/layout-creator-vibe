@@ -2,21 +2,7 @@ import UserIcon from "../atoms/UserIcon";
 import { ExternalLink } from "lucide-react";
 import { motion } from "framer-motion";
 
-const MatchCard = ({ 
-  name = "Unknown Name", 
-  country = "🌍", 
-  experience = "Not specified", 
-  matchScore = 0, 
-  matchReason = "No reason provided", 
-  potentialCollaboration = "Not specified", 
-  complimentarySkills = "None listed", 
-  sharedInterests = "None found", 
-  communicationCompatibility = "Not determined", 
-  geographicalSynergy = "Not specified", 
-  isExpanded, 
-  isTransitioning, 
-  onToggle 
-}) => {
+const MatchCard = ({ name, country, experience, matchScore, matchReason, potentialCollaboration, complimentarySkills, sharedInterests, communicationCompatibility, geographicalSynergy, isExpanded, isTransitioning, onToggle }) => {
   return (
     <div 
       className={`border rounded-lg p-4 cursor-pointer transition-all duration-300 ${isExpanded ? 'bg-gray-50' : ''}`}
