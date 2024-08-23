@@ -8,6 +8,7 @@ import { Label } from '@/components/ui/label';
 import AuthToggle from '../components/molecules/AuthToggle';
 import { supabase } from '../integrations/supabase';
 import { EyeIcon, EyeOffIcon } from 'lucide-react';
+import { toast } from 'sonner';
 
 const Login = () => {
   const { signIn } = useAuth();
@@ -15,27 +16,25 @@ const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const [message, setMessage] = useState('');
   const [authMethod, setAuthMethod] = useState('magic-link');
   const [showPassword, setShowPassword] = useState(false);
 
   const handleSignIn = async (e) => {
     e.preventDefault();
     setIsLoading(true);
-    setMessage('');
 
     try {
       let result;
       if (authMethod === 'magic-link') {
         result = await signIn({ email, authMethod });
-        setMessage('Check your email for the login link!');
+        toast.success('Check your email for the login link!');
       } else {
         result = await signIn({ email, password, authMethod });
         if (result.error) throw result.error;
         navigate('/'); // Redirect to the home page after successful login
       }
     } catch (error) {
-      setMessage(error.error_description || error.message);
+      toast.error(error.error_description || error.message);
     } finally {
       setIsLoading(false);
     }
@@ -43,16 +42,15 @@ const Login = () => {
 
   const handleForgotPassword = async () => {
     setIsLoading(true);
-    setMessage('');
 
     try {
       const { error } = await supabase.auth.resetPasswordForEmail(email, {
         redirectTo: 'https://preview--layout-creator-vibe.gptengineer.run/reset_password',
       });
       if (error) throw error;
-      setMessage('Password reset email sent. Check your inbox.');
+      toast.success('Password reset email sent. Check your inbox.');
     } catch (error) {
-      setMessage(error.error_description || error.message);
+      toast.error(error.error_description || error.message);
     } finally {
       setIsLoading(false);
     }
@@ -128,11 +126,6 @@ const Login = () => {
             {isLoading ? 'Processing...' : (authMethod === 'magic-link' ? 'Send Magic Link' : 'Sign In')}
           </Button>
         </CardFooter>
-        {message && (
-          <p className="text-center text-sm p-4">
-            {message}
-          </p>
-        )}
       </Card>
     </div>
   );

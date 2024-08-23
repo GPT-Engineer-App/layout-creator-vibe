@@ -5,8 +5,8 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
-import { useToast } from "@/components/ui/use-toast";
 import { EyeIcon, EyeOffIcon } from 'lucide-react';
+import { toast } from 'sonner';
 
 const ResetPassword = () => {
   const [password, setPassword] = useState('');
@@ -16,33 +16,21 @@ const ResetPassword = () => {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const { resetPassword } = useAuth();
   const navigate = useNavigate();
-  const { toast } = useToast();
 
   const handleResetPassword = async (e) => {
     e.preventDefault();
     if (password !== confirmPassword) {
-      toast({
-        title: "Error",
-        description: "Passwords do not match",
-        variant: "destructive",
-      });
+      toast.error("Passwords do not match");
       return;
     }
 
     setIsLoading(true);
     try {
       await resetPassword(password);
-      toast({
-        title: "Success",
-        description: "Your password has been reset successfully",
-      });
+      toast.success("Your password has been reset successfully");
       navigate('/login');
     } catch (error) {
-      toast({
-        title: "Error",
-        description: error.message,
-        variant: "destructive",
-      });
+      toast.error(error.message);
     } finally {
       setIsLoading(false);
     }
