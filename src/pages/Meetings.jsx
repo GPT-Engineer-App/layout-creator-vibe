@@ -43,13 +43,17 @@ const Meetings = () => {
 
 const UpcomingMeeting = ({ meeting }) => {
   const formatDate = (dateString) => {
-    return format(new Date(dateString), "MMMM d, yyyy 'at' h:mm a");
+    return dateString ? format(new Date(dateString), "MMMM d, yyyy 'at' h:mm a") : "Not given";
+  };
+
+  const displayValue = (value) => {
+    return value ? value : "Not given";
   };
 
   return (
     <Card className="mb-6">
       <CardHeader>
-        <CardTitle className="text-xl font-semibold text-purple-600">{meeting.meeting_title}</CardTitle>
+        <CardTitle className="text-xl font-semibold text-purple-600">{displayValue(meeting.meeting_title)}</CardTitle>
       </CardHeader>
       <CardContent>
         <div className="space-y-4">
@@ -59,26 +63,36 @@ const UpcomingMeeting = ({ meeting }) => {
           </div>
           <div>
             <p className="font-semibold">Location:</p>
-            <p className="bg-gray-100 rounded-md px-3 py-2">{meeting.meeting_timezone}</p>
+            <p className="bg-gray-100 rounded-md px-3 py-2">{displayValue(meeting.meeting_timezone)}</p>
           </div>
           <div>
             <p className="font-semibold">Meeting Link:</p>
-            <a href={meeting.meeting_url} target="_blank" rel="noopener noreferrer" className="bg-gray-100 rounded-md px-3 py-2 text-blue-500 hover:underline block">
-              Join Meeting
-            </a>
+            {meeting.meeting_url ? (
+              <a href={meeting.meeting_url} target="_blank" rel="noopener noreferrer" className="bg-gray-100 rounded-md px-3 py-2 text-blue-500 hover:underline block">
+                Join Meeting
+              </a>
+            ) : (
+              <p className="bg-gray-100 rounded-md px-3 py-2">Not given</p>
+            )}
           </div>
           <div>
             <p className="font-semibold">Host:</p>
-            <p className="bg-gray-100 rounded-md px-2 py-1">{meeting.host_email}</p>
+            <p className="bg-gray-100 rounded-md px-3 py-2">{displayValue(meeting.host_email)}</p>
           </div>
           <div>
             <p className="font-semibold">Guest:</p>
-            <p className="bg-gray-100 rounded-md px-2 py-1">{meeting.guest_email}</p>
+            <p className="bg-gray-100 rounded-md px-3 py-2">{displayValue(meeting.guest_email)}</p>
           </div>
           <div className="mt-6 space-x-2">
-            <Button variant="outline" className="text-blue-500 border-blue-500 hover:bg-blue-50" onClick={() => window.open(meeting.rescheduleorcancel_url, '_blank')}>
-              Cancel or Reschedule
-            </Button>
+            {meeting.rescheduleorcancel_url ? (
+              <Button variant="outline" className="text-blue-500 border-blue-500 hover:bg-blue-50" onClick={() => window.open(meeting.rescheduleorcancel_url, '_blank')}>
+                Cancel or Reschedule
+              </Button>
+            ) : (
+              <Button variant="outline" className="text-gray-400 border-gray-400 cursor-not-allowed" disabled>
+                Cancel or Reschedule (Not available)
+              </Button>
+            )}
           </div>
         </div>
       </CardContent>
