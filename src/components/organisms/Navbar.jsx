@@ -10,7 +10,13 @@ const Navbar = () => {
   const location = useLocation();
   const [email, setEmail] = useState("");
   const [isOpen, setIsOpen] = useState(false);
-  const [authUid, setAuthUid] = useState("");
+  const [authUid, setAuthUid] = useState(() => sessionStorage.getItem("authUid") || "");
+
+  const handleAuthUidChange = (e) => {
+    const newAuthUid = e.target.value;
+    setAuthUid(newAuthUid);
+    sessionStorage.setItem("authUid", newAuthUid);
+  };
 
   const handleSignIn = async (e) => {
     e.preventDefault();

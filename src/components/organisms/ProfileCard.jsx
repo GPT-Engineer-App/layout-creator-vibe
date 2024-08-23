@@ -1,56 +1,62 @@
 import React from 'react';
 import ProfileHeader from "../molecules/ProfileHeader";
 import ProfileSection from "../molecules/ProfileSection";
-
-const dummyProfile = {
-  name: "Jane Doe",
-  career_stage: "Senior Product Manager",
-  image_url: "https://randomuser.me/api/portraits/women/44.jpg",
-  business_goals: [
-    "Expand market share",
-    "Improve customer retention",
-    "Launch new product line"
-  ],
-  key_skills: [
-    "Product Strategy",
-    "User Experience",
-    "Agile Methodologies",
-    "Data Analysis"
-  ],
-  interests: [
-    "Artificial Intelligence",
-    "Sustainable Technology",
-    "Digital Transformation"
-  ],
-  hobbies: [
-    "Hiking",
-    "Photography",
-    "Cooking"
-  ],
-  preferred_communication: "Video calls",
-  location: "San Francisco, CA",
-  industry: "Technology"
-};
+import { useProfiles } from "../../integrations/supabase";
+import { Skeleton } from "@/components/ui/skeleton";
 
 const ProfileCard = () => {
+  const authUid = sessionStorage.getItem("authUid");
+  const { data: profiles, isLoading, error } = useProfiles();
+
+  if (isLoading) {
+    return (
+      <div className="h-full bg-white rounded-lg shadow-md p-6 overflow-auto">
+        <Skeleton className="h-8 w-3/4 mb-6" />
+        <Skeleton className="h-16 w-16 rounded-full mb-4" />
+        <Skeleton className="h-6 w-1/2 mb-2" />
+        <Skeleton className="h-4 w-1/3 mb-6" />
+        <div className="grid grid-cols-2 gap-4">
+          {[...Array(4)].map((_, index) => (
+            <div key={index}>
+              <Skeleton className="h-6 w-3/4 mb-2" />
+              <Skeleton className="h-4 w-full mb-1" />
+              <Skeleton className="h-4 w-full mb-1" />
+              <Skeleton className="h-4 w-2/3" />
+            </div>
+          ))}
+        </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return <div className="text-red-500">Error loading profile: {error.message}</div>;
+  }
+
+  const profile = profiles?.find(p => p.user_id === authUid);
+
+  if (!profile) {
+    return <div className="text-yellow-500">No profile found for the given Auth UID. Please check the Auth UID and try again.</div>;
+  }
+
   return (
     <div className="h-full bg-white rounded-lg shadow-md p-6 overflow-auto">
       <h1 className="text-3xl font-bold text-purple-600 mb-6">Your Profile</h1>
       
       <ProfileHeader 
-        name={dummyProfile.name} 
-        tagline={dummyProfile.career_stage} 
-        imageUrl={dummyProfile.image_url} 
+        name={profile.name} 
+        tagline={profile.career_stage} 
+        imageUrl={profile.image_url} 
       />
 
       <div className="grid grid-cols-2 gap-4 mb-4">
         <ProfileSection title="Business Goals">
-          {dummyProfile.business_goals.map((goal, index) => (
+          {profile.business_goals?.map((goal, index) => (
             <React.Fragment key={index}>{goal}</React.Fragment>
           ))}
         </ProfileSection>
         <ProfileSection title="Key Skills">
-          {dummyProfile.key_skills.map((skill, index) => (
+          {profile.key_skills?.map((skill, index) => (
             <React.Fragment key={index}>{skill}</React.Fragment>
           ))}
         </ProfileSection>
@@ -58,12 +64,12 @@ const ProfileCard = () => {
 
       <div className="grid grid-cols-2 gap-4 mb-4">
         <ProfileSection title="Interests">
-          {dummyProfile.interests.map((interest, index) => (
+          {profile.interests?.map((interest, index) => (
             <React.Fragment key={index}>{interest}</React.Fragment>
           ))}
         </ProfileSection>
         <ProfileSection title="Hobbies">
-          {dummyProfile.hobbies.map((hobby, index) => (
+          {profile.hobbies?.map((hobby, index) => (
             <React.Fragment key={index}>{hobby}</React.Fragment>
           ))}
         </ProfileSection>
@@ -71,16 +77,16 @@ const ProfileCard = () => {
 
       <div className="grid grid-cols-2 gap-4">
         <ProfileSection title="Communication Preferences">
-          {dummyProfile.preferred_communication}
+          {profile.preferred_communication}
         </ProfileSection>
         <ProfileSection title="Location">
-          {dummyProfile.location}
+          {profile.location}
         </ProfileSection>
       </div>
 
       <div className="mt-4">
         <ProfileSection title="Industry">
-          {dummyProfile.industry}
+          {profile.industry}
         </ProfileSection>
       </div>
     </div>
