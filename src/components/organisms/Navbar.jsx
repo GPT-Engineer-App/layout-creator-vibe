@@ -1,5 +1,5 @@
 import { Link, useLocation } from "react-router-dom";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { supabase } from "../../integrations/supabase";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -11,11 +11,22 @@ const Navbar = () => {
   const [email, setEmail] = useState("");
   const [isOpen, setIsOpen] = useState(false);
   const [authUid, setAuthUid] = useState(() => sessionStorage.getItem("authUid") || "");
+  const [authEmail, setAuthEmail] = useState(() => sessionStorage.getItem("authEmail") || "");
+
+  useEffect(() => {
+    sessionStorage.setItem("authUid", authUid);
+  }, [authUid]);
+
+  useEffect(() => {
+    sessionStorage.setItem("authEmail", authEmail);
+  }, [authEmail]);
 
   const handleAuthUidChange = (e) => {
-    const newAuthUid = e.target.value;
-    setAuthUid(newAuthUid);
-    sessionStorage.setItem("authUid", newAuthUid);
+    setAuthUid(e.target.value);
+  };
+
+  const handleAuthEmailChange = (e) => {
+    setAuthEmail(e.target.value);
   };
 
   const handleSignIn = async (e) => {
@@ -54,6 +65,13 @@ const Navbar = () => {
               placeholder="Auth UID for testing"
               value={authUid}
               onChange={handleAuthUidChange}
+              className="w-48"
+            />
+            <Input
+              type="email"
+              placeholder="Auth Email for testing"
+              value={authEmail}
+              onChange={handleAuthEmailChange}
               className="w-48"
             />
             <Dialog open={isOpen} onOpenChange={setIsOpen}>
