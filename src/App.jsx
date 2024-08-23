@@ -7,6 +7,7 @@ import Layout from "./components/templates/Layout";
 import Index from "./pages/Index";
 import Meetings from "./pages/Meetings";
 import ResetPassword from "./pages/ResetPassword";
+import { Toaster } from "sonner";
 
 const queryClient = new QueryClient();
 
@@ -15,14 +16,11 @@ const App = () => (
     <TooltipProvider>
       <Toaster />
       <BrowserRouter>
-        <Navbar />
-        <Layout>
-          <Routes>
-            <Route path="/" element={<Meetings />} />
-            <Route path="/matches" element={<Index />} />
-            <Route path="/reset-password" element={<ResetPassword />} />
-          </Routes>
-        </Layout>
+        <Routes>
+          <Route path="/" element={<Layout><Meetings /></Layout>} />
+          <Route path="/matches" element={<Layout><Index /></Layout>} />
+          <Route path="/reset-password" element={<ResetPassword />} />
+        </Routes>
       </BrowserRouter>
     </TooltipProvider>
   </QueryClientProvider>
