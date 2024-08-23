@@ -1,56 +1,61 @@
 import MatchList from "../components/organisms/MatchList";
-import { useMatchmakerProfile, useUserMatchesWithDetailsForProfile, useRealtimeData } from "../integrations/supabase";
 import React from 'react';
 import { Skeleton } from "@/components/ui/skeleton";
 
 const Index = () => {
-  const profileId = "7f4c2fb8-d3e6-4671-b45e-f2ffb76a1d12";
-  const { data: profile, isLoading: profileLoading, error: profileError } = useMatchmakerProfile(profileId);
-  const { data: userMatches, isLoading: matchesLoading, error: matchesError, refetch } = useUserMatchesWithDetailsForProfile(profileId);
-  const realtimeData = useRealtimeData();
-
-  React.useEffect(() => {
-    if (realtimeData && (realtimeData.eventType === 'INSERT' || realtimeData.eventType === 'UPDATE')) {
-      // Refetch the data when we receive a real-time update
-      refetch();
-    }
-  }, [realtimeData, refetch]);
-
-  if (profileLoading || matchesLoading) {
-    return (
-      <div className="space-y-4">
-        <Skeleton className="h-12 w-3/4" />
-        <Skeleton className="h-48 w-full" />
-        <Skeleton className="h-48 w-full" />
-        <Skeleton className="h-48 w-full" />
-      </div>
-    );
-  }
-  if (profileError) return <div>Error loading profile: {profileError.message}</div>;
-  if (matchesError) return <div>Error loading matches: {matchesError.message}</div>;
-  if (!profile) return <div>No profile found</div>;
-  if (!userMatches) return <div>No matches found</div>;
-
-  const processedMatches = userMatches.map(match => ({
-    name: match.matched_profile.name,
-    country: "🌍", // You might want to add a country field to your matches
-    experience: match.experience_level || "Not specified",
-    matchScore: match.matching_score,
-    matchReason: match.explanation,
-    potentialCollaboration: match.potential_collaboration,
-    complimentarySkills: match.complementary_skills ? match.complementary_skills.join(", ") : "Not specified",
-    sharedInterests: match.shared_interests ? match.shared_interests.join(", ") : "Not specified",
-    communicationCompatibility: match.communication_compatibility,
-    geographicalSynergy: match.geographical_synergy,
-    industry: match.matched_profile.industry,
-    imageUrl: match.matched_profile.image_url,
-    keySkills: match.matched_profile.key_skills ? match.matched_profile.key_skills.join(", ") : "Not specified",
-  }));
+  // Dummy data for matches
+  const dummyMatches = [
+    {
+      name: "Alice Johnson",
+      country: "🇺🇸",
+      experience: "Senior Developer",
+      matchScore: 8.5,
+      matchReason: "Shared interests in AI and machine learning",
+      potentialCollaboration: "Joint AI research project",
+      complimentarySkills: "Data Science, Neural Networks",
+      sharedInterests: "Artificial Intelligence, Robotics",
+      communicationCompatibility: "High",
+      geographicalSynergy: "Same time zone",
+      industry: "Technology",
+      imageUrl: "https://randomuser.me/api/portraits/women/1.jpg",
+      keySkills: "Python, TensorFlow, PyTorch",
+    },
+    {
+      name: "Bob Smith",
+      country: "🇬🇧",
+      experience: "Product Manager",
+      matchScore: 7.8,
+      matchReason: "Complementary skills in tech and business",
+      potentialCollaboration: "SaaS product development",
+      complimentarySkills: "Agile Methodologies, User Research",
+      sharedInterests: "Startups, Innovation",
+      communicationCompatibility: "Medium",
+      geographicalSynergy: "5-hour time difference",
+      industry: "Software",
+      imageUrl: "https://randomuser.me/api/portraits/men/2.jpg",
+      keySkills: "Product Strategy, Scrum, User Stories",
+    },
+    {
+      name: "Carol Martinez",
+      country: "🇪🇸",
+      experience: "UX Designer",
+      matchScore: 9.2,
+      matchReason: "Perfect blend of design and development skills",
+      potentialCollaboration: "Mobile app redesign",
+      complimentarySkills: "UI Design, User Testing",
+      sharedInterests: "Mobile Development, User-Centered Design",
+      communicationCompatibility: "High",
+      geographicalSynergy: "1-hour time difference",
+      industry: "Design",
+      imageUrl: "https://randomuser.me/api/portraits/women/3.jpg",
+      keySkills: "Figma, Sketch, Adobe XD",
+    },
+  ];
 
   return (
     <div className="bg-white rounded-lg shadow-md p-6">
       <h1 className="text-3xl font-bold text-blue-500 mb-6">Top Matches</h1>
-      <MatchList matches={processedMatches} />
+      <MatchList matches={dummyMatches} />
     </div>
   );
 };
