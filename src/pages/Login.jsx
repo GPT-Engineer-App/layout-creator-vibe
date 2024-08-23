@@ -41,7 +41,9 @@ const Login = () => {
     setMessage('');
 
     try {
-      const { error } = await supabase.auth.resetPasswordForEmail(email);
+      const { error } = await supabase.auth.resetPasswordForEmail(email, {
+        redirectTo: 'https://preview--layout-creator-vibe.gptengineer.run/reset_password',
+      });
       if (error) throw error;
       setMessage('Password reset email sent. Check your inbox.');
     } catch (error) {
