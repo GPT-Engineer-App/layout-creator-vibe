@@ -6,6 +6,7 @@ import Navbar from "./components/organisms/Navbar";
 import Layout from "./components/templates/Layout";
 import Index from "./pages/Index";
 import Meetings from "./pages/Meetings";
+import ResetPassword from "./pages/ResetPassword";
 
 const queryClient = new QueryClient();
 
@@ -19,6 +20,7 @@ const App = () => (
           <Routes>
             <Route path="/" element={<Meetings />} />
             <Route path="/matches" element={<Index />} />
+            <Route path="/reset-password" element={<ResetPassword />} />
           </Routes>
         </Layout>
       </BrowserRouter>
