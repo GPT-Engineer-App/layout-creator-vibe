@@ -7,7 +7,6 @@ import Layout from "./components/templates/Layout";
 import Index from "./pages/Index";
 import Meetings from "./pages/Meetings";
 import ResetPassword from "./pages/ResetPassword";
-import { Toaster } from "sonner";
 
 const queryClient = new QueryClient();
 
