@@ -33,12 +33,9 @@ const Navbar = () => {
               </NavLink>
             </div>
           </div>
-          <div className="flex items-center space-x-2">
+          <div className="flex items-center">
             {user && (
-              <>
-                <span className="text-gray-600">{user.email}</span>
-                <Button onClick={handleSignOut} variant="outline">Sign Out</Button>
-              </>
+              <Button onClick={handleSignOut} variant="outline">Sign Out</Button>
             )}
           </div>
         </div>
