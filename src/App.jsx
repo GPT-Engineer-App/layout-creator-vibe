@@ -7,6 +7,7 @@ import Layout from "./components/templates/Layout";
 import Index from "./pages/Index";
 import Meetings from "./pages/Meetings";
 import Login from "./pages/Login";
+import ResetPassword from "./pages/ResetPassword";
 import ProtectedRoute from "./components/ProtectedRoute";
 import { AuthProvider } from "./contexts/AuthContext";
 
@@ -20,6 +21,7 @@ const App = () => (
         <BrowserRouter>
           <Routes>
             <Route path="/login" element={<Login />} />
+            <Route path="/reset_password" element={<ResetPassword />} />
             <Route
               path="/"
               element={

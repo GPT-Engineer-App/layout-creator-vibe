@@ -39,9 +39,15 @@ export const AuthProvider = ({ children }) => {
     setUser(null);
   };
 
+  const resetPassword = async (newPassword) => {
+    const { error } = await supabase.auth.updateUser({ password: newPassword });
+    if (error) throw error;
+  };
+
   const value = {
     signIn,
     signOut,
+    resetPassword,
     user,
   };
 
