@@ -269,6 +269,38 @@ export const useMatchmakerProfile = (profileId) => useQuery({
     enabled: !!profileId
 });
 
+export const useUserMatchesWithProfiles = (userId) => useQuery({
+    queryKey: ['userMatchesWithProfiles', userId],
+    queryFn: async () => {
+        const { data, error } = await supabase
+            .from('matches')
+            .select(`
+                *,
+                matched_profile:profiles!matches_matched_user_id_fkey(*)
+            `)
+            .eq('user_id', userId);
+
+        if (error) throw new Error(error.message);
+        return data.map(match => ({
+            ...match,
+            name: match.matched_profile.name,
+            country: match.matched_profile.location,
+            experience: match.matched_profile.career_stage,
+            matchScore: match.matching_score,
+            matchReason: match.explanation,
+            potentialCollaboration: match.potential_collaboration,
+            complimentarySkills: match.complementary_skills,
+            sharedInterests: match.shared_interests,
+            communicationCompatibility: match.communication_compatibility,
+            geographicalSynergy: match.geographical_synergy,
+            industry: match.matched_profile.industry,
+            imageUrl: match.matched_profile.image_url,
+            keySkills: match.matched_profile.key_skills
+        }));
+    },
+    enabled: !!userId
+});
+
 export const useUserMatchesWithDetailsForProfile = (profileId) => useQuery({
     queryKey: ['userMatchesWithDetails', profileId],
     queryFn: async () => {
