@@ -58,7 +58,7 @@ const Login = () => {
           <CardTitle>Login</CardTitle>
           <CardDescription>Sign in to your account</CardDescription>
         </CardHeader>
-        <CardContent className="pb-0">
+        <CardContent>
           <form onSubmit={handleSignIn}>
             <AuthToggle activeMethod={authMethod} onToggle={setAuthMethod} />
             <div className="grid w-full items-center gap-4">
