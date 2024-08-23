@@ -1,28 +1,9 @@
 import { Link, useLocation } from "react-router-dom";
-import { useState } from "react";
-import { supabase } from "../../integrations/supabase";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
-import { toast } from "sonner";
+import SignInDialog from "../molecules/SignInDialog";
 
 const Navbar = () => {
   const location = useLocation();
-  const [email, setEmail] = useState("");
-  const [isOpen, setIsOpen] = useState(false);
-
-  const handleSignIn = async (e) => {
-    e.preventDefault();
-    try {
-      const { error } = await supabase.auth.signInWithOtp({ email });
-      if (error) throw error;
-      toast.success("Magic link sent! Check your email.");
-      setIsOpen(false);
-      sessionStorage.setItem("userEmail", email);
-    } catch (error) {
-      toast.error(error.message);
-    }
-  };
 
   return (
     <nav className="bg-white shadow-md">
@@ -42,26 +23,9 @@ const Navbar = () => {
             </div>
           </div>
           <div className="flex items-center">
-            <Dialog open={isOpen} onOpenChange={setIsOpen}>
-              <DialogTrigger asChild>
-                <Button variant="outline">Sign In</Button>
-              </DialogTrigger>
-              <DialogContent>
-                <DialogHeader>
-                  <DialogTitle>Sign In with Magic Link</DialogTitle>
-                </DialogHeader>
-                <form onSubmit={handleSignIn} className="space-y-4">
-                  <Input
-                    type="email"
-                    placeholder="Enter your email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    required
-                  />
-                  <Button type="submit">Send Magic Link</Button>
-                </form>
-              </DialogContent>
-            </Dialog>
+            <SignInDialog>
+              <Button variant="outline">Sign In</Button>
+            </SignInDialog>
           </div>
         </div>
       </div>
