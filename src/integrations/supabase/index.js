@@ -137,26 +137,16 @@ export const useDeleteMeeting = () => {
 };
 
 // New function to fetch meetings for a given authenticated user email
-export const useUserMeetings = () => {
-    const [user, setUser] = useState(null);
-
-    useEffect(() => {
-        supabase.auth.getUser().then(({ data: { user } }) => {
-            setUser(user);
-        });
-    }, []);
-
-    return useQuery({
-        queryKey: ['userMeetings', user?.email],
-        queryFn: () => fromSupabase(
-            supabase.from('meetings')
-                .select('*')
-                .or(`host_email.eq.${user.email},guest_email.eq.${user.email}`)
-                .order('event_start_time', { ascending: true })
-        ),
-        enabled: !!user?.email
-    });
-};
+export const useUserMeetings = (authEmail) => useQuery({
+    queryKey: ['userMeetings', authEmail],
+    queryFn: () => fromSupabase(
+        supabase.from('meetings')
+            .select('*')
+            .or(`host_email.eq.${authEmail},guest_email.eq.${authEmail}`)
+            .order('event_start_time', { ascending: true })
+    ),
+    enabled: !!authEmail
+});
 
 // Profiles hooks
 export const useProfiles = () => useQuery({

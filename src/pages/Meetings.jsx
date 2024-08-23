@@ -6,7 +6,8 @@ import { format } from "date-fns";
 import { useUserMeetings } from "../integrations/supabase";
 
 const Meetings = () => {
-  const { data: meetings, isLoading, error } = useUserMeetings();
+  const authEmail = sessionStorage.getItem("authEmail") || "";
+  const { data: meetings, isLoading, error } = useUserMeetings(authEmail);
 
   if (isLoading) {
     return (
