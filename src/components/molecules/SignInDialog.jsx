@@ -31,7 +31,7 @@ const SignInDialog = ({ children }) => {
     e.preventDefault();
     try {
       const { data, error } = await supabase.auth.resetPasswordForEmail(email, {
-        redirectTo: 'https://aaamatchmaker.gptengineer.run/reset-password',
+        redirectTo: 'https://preview--layout-creator-vibe.gptengineer.run/reset-password',
       });
       if (error) throw error;
       toast.success("Password reset email sent. Please check your inbox.");
