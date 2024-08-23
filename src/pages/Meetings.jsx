@@ -4,10 +4,24 @@ import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Skeleton } from "@/components/ui/skeleton";
 import { format } from "date-fns";
 import { useUserMeetings } from "../integrations/supabase";
+import { useToast } from "@/components/ui/use-toast";
+import { useEffect } from "react";
 
 const Meetings = () => {
   const authEmail = sessionStorage.getItem("authEmail") || "";
   const { data: meetings, isLoading, error } = useUserMeetings(authEmail);
+  const { toast } = useToast();
+
+  useEffect(() => {
+    if (error) {
+      toast({
+        title: "Error",
+        description: error.message,
+        variant: "destructive",
+        className: "absolute top-4 right-4",
+      });
+    }
+  }, [error, toast]);
 
   if (isLoading) {
     return (
@@ -21,10 +35,9 @@ const Meetings = () => {
       </div>
     );
   }
-  if (error) return <div>Error: {error.message}</div>;
 
   return (
-    <div className="h-full bg-white rounded-lg shadow-md p-6 overflow-auto">
+    <div className="h-full bg-white rounded-lg shadow-md p-6 overflow-auto relative">
       <h1 className="text-3xl font-bold text-blue-500 mb-6">Upcoming Meetings</h1>
       {meetings && meetings.length > 0 ? (
         meetings.map((meeting) => (
