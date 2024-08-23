@@ -87,7 +87,7 @@ const Login = () => {
                   <Button
                     type="button"
                     variant="link"
-                    className="mt-2 text-sm text-blue-500 hover:text-blue-600 text-center"
+                    className="text-sm text-blue-500 hover:text-blue-600 text-center"
                     onClick={handleForgotPassword}
                   >
                     Forgot Password?
