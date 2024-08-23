@@ -1,12 +1,12 @@
 import React from 'react';
 import ProfileHeader from "../molecules/ProfileHeader";
 import ProfileSection from "../molecules/ProfileSection";
-import { useProfiles } from "../../integrations/supabase";
+import { useProfile } from "../../integrations/supabase";
 import { Skeleton } from "@/components/ui/skeleton";
 
 const ProfileCard = () => {
-  const authUid = sessionStorage.getItem("authUid");
-  const { data: profiles, isLoading, error } = useProfiles();
+  const authUid = "f7318dfb-161f-485d-86d4-f599d01e657e";
+  const { data: profile, isLoading, error } = useProfile(authUid);
 
   if (isLoading) {
     return (
@@ -32,8 +32,6 @@ const ProfileCard = () => {
   if (error) {
     return <div className="text-red-500">Error loading profile: {error.message}</div>;
   }
-
-  const profile = profiles?.find(p => p.user_id === authUid);
 
   if (!profile) {
     return <div className="text-yellow-500">No profile found for the given Auth UID. Please check the Auth UID and try again.</div>;
