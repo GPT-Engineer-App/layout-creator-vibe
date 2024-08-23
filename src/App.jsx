@@ -6,7 +6,6 @@ import Navbar from "./components/organisms/Navbar";
 import Layout from "./components/templates/Layout";
 import Index from "./pages/Index";
 import Meetings from "./pages/Meetings";
-import ResetPassword from "./pages/ResetPassword";
 
 const queryClient = new QueryClient();
 
@@ -15,11 +14,13 @@ const App = () => (
     <TooltipProvider>
       <Toaster />
       <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Layout><Meetings /></Layout>} />
-          <Route path="/matches" element={<Layout><Index /></Layout>} />
-          <Route path="/reset-password" element={<ResetPassword />} />
-        </Routes>
+        <Navbar />
+        <Layout>
+          <Routes>
+            <Route path="/" element={<Meetings />} />
+            <Route path="/matches" element={<Index />} />
+          </Routes>
+        </Layout>
       </BrowserRouter>
     </TooltipProvider>
   </QueryClientProvider>
