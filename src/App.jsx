@@ -6,23 +6,46 @@ import Navbar from "./components/organisms/Navbar";
 import Layout from "./components/templates/Layout";
 import Index from "./pages/Index";
 import Meetings from "./pages/Meetings";
+import Login from "./pages/Login";
+import ProtectedRoute from "./components/ProtectedRoute";
+import { AuthProvider } from "./contexts/AuthContext";
 
 const queryClient = new QueryClient();
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
-    <TooltipProvider>
-      <Toaster />
-      <BrowserRouter>
-        <Navbar />
-        <Layout>
+    <AuthProvider>
+      <TooltipProvider>
+        <Toaster />
+        <BrowserRouter>
           <Routes>
-            <Route path="/" element={<Meetings />} />
-            <Route path="/matches" element={<Index />} />
+            <Route path="/login" element={<Login />} />
+            <Route
+              path="/"
+              element={
+                <ProtectedRoute>
+                  <Navbar />
+                  <Layout>
+                    <Meetings />
+                  </Layout>
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/matches"
+              element={
+                <ProtectedRoute>
+                  <Navbar />
+                  <Layout>
+                    <Index />
+                  </Layout>
+                </ProtectedRoute>
+              }
+            />
           </Routes>
-        </Layout>
-      </BrowserRouter>
-    </TooltipProvider>
+        </BrowserRouter>
+      </TooltipProvider>
+    </AuthProvider>
   </QueryClientProvider>
 );
 
