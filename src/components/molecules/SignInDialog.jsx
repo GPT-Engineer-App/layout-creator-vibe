@@ -9,6 +9,7 @@ const SignInDialog = ({ children }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [isResetMode, setIsResetMode] = useState(false);
 
   const handleSignIn = async (e) => {
     e.preventDefault();
@@ -26,6 +27,20 @@ const SignInDialog = ({ children }) => {
     }
   };
 
+  const handleResetPassword = async (e) => {
+    e.preventDefault();
+    try {
+      const { data, error } = await supabase.auth.resetPasswordForEmail(email, {
+        redirectTo: 'https://aaamatchmaker.gptengineer.run/reset-password',
+      });
+      if (error) throw error;
+      toast.success("Password reset email sent. Please check your inbox.");
+      setIsResetMode(false);
+    } catch (error) {
+      toast.error(error.message);
+    }
+  };
+
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>
@@ -33,25 +48,40 @@ const SignInDialog = ({ children }) => {
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Sign In</DialogTitle>
+          <DialogTitle>{isResetMode ? "Reset Password" : "Sign In"}</DialogTitle>
         </DialogHeader>
-        <form onSubmit={handleSignIn} className="space-y-4">
-          <Input
-            type="email"
-            placeholder="Enter your email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
-          <Input
-            type="password"
-            placeholder="Enter your password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
-          <Button type="submit">Sign In</Button>
-        </form>
+        {isResetMode ? (
+          <form onSubmit={handleResetPassword} className="space-y-4">
+            <Input
+              type="email"
+              placeholder="Enter your email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+            />
+            <Button type="submit">Send Reset Email</Button>
+            <Button type="button" variant="outline" onClick={() => setIsResetMode(false)}>Back to Sign In</Button>
+          </form>
+        ) : (
+          <form onSubmit={handleSignIn} className="space-y-4">
+            <Input
+              type="email"
+              placeholder="Enter your email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+            />
+            <Input
+              type="password"
+              placeholder="Enter your password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />
+            <Button type="submit">Sign In</Button>
+            <Button type="button" variant="outline" onClick={() => setIsResetMode(true)}>Reset Password</Button>
+          </form>
+        )}
       </DialogContent>
     </Dialog>
   );
