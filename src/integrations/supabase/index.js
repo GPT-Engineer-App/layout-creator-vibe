@@ -6,7 +6,6 @@ import {
   QueryClient,
   QueryClientProvider,
 } from "@tanstack/react-query";
-import { useState, useEffect } from "react";
 
 const supabaseUrl = import.meta.env.VITE_SUPABASE_PROJECT_URL;
 const supabaseKey = import.meta.env.VITE_SUPABASE_API_KEY;
@@ -49,21 +48,21 @@ const fromSupabase = async (query) => {
 
 ### profiles
 
-| name                    | type                     | format | required |
-|-------------------------|--------------------------|--------|----------|
-| user_id                 | uuid                     | string | true     |
-| name                    | text                     | string | true     |
-| image_url               | text                     | string | false    |
-| key_skills              | text[]                   | array  | false    |
-| industry                | text                     | string | false    |
-| business_goals          | text[]                   | array  | false    |
-| interests               | text[]                   | array  | false    |
-| location                | text                     | string | false    |
-| hobbies                 | text[]                   | array  | false    |
-| career_stage            | text                     | string | false    |
-| preferred_communication | text                     | string | false    |
-| created_at              | timestamp with time zone | string | false    |
-| updated_at              | timestamp with time zone | string | false    |
+| name                     | type                     | format | required |
+|--------------------------|--------------------------|--------|----------|
+| user_id                  | uuid                     | string | true     |
+| name                     | text                     | string | true     |
+| image_url                | text                     | string | false    |
+| key_skills               | text[]                   | array  | false    |
+| industry                 | text                     | string | false    |
+| business_goals           | text[]                   | array  | false    |
+| interests                | text[]                   | array  | false    |
+| location                 | text                     | string | false    |
+| hobbies                  | text[]                   | array  | false    |
+| career_stage             | text                     | string | false    |
+| preferred_communication  | text                     | string | false    |
+| created_at               | timestamp with time zone | string | false    |
+| updated_at               | timestamp with time zone | string | false    |
 
 ### matches
 
@@ -85,7 +84,7 @@ const fromSupabase = async (query) => {
 
 */
 
-// Meetings
+// Meetings hooks
 export const useMeetings = () =>
   useQuery({
     queryKey: ["meetings"],
@@ -142,7 +141,7 @@ export const useDeleteMeeting = () => {
   });
 };
 
-// Profiles
+// Profiles hooks
 export const useProfiles = () =>
   useQuery({
     queryKey: ["profiles"],
@@ -193,7 +192,7 @@ export const useDeleteProfile = () => {
   });
 };
 
-// Matches
+// Matches hooks
 export const useMatches = () =>
   useQuery({
     queryKey: ["matches"],
@@ -246,9 +245,9 @@ export const useDeleteMatch = () => {
 
 // Custom hooks for specific queries
 export const useRealtimeData = () => {
-  const [realtimeData, setRealtimeData] = useState(null);
+  const [realtimeData, setRealtimeData] = React.useState(null);
 
-  useEffect(() => {
+  React.useEffect(() => {
     const channel = supabase
       .channel("table-db-changes")
       .on("postgres_changes", { event: "*", schema: "public" }, (payload) => {
