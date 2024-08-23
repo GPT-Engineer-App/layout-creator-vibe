@@ -8,9 +8,13 @@ export const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const session = supabase.auth.getSession();
-    setUser(session?.user ?? null);
-    setLoading(false);
+    const setUserFromSession = async () => {
+      const { data: { session } } = await supabase.auth.getSession();
+      setUser(session?.user ?? null);
+      setLoading(false);
+    };
+
+    setUserFromSession();
 
     const { data: listener } = supabase.auth.onAuthStateChange((_event, session) => {
       setUser(session?.user ?? null);
@@ -22,9 +26,18 @@ export const AuthProvider = ({ children }) => {
     };
   }, []);
 
+  const signIn = async ({ email }) => {
+    return supabase.auth.signInWithOtp({ email });
+  };
+
+  const signOut = async () => {
+    await supabase.auth.signOut();
+    setUser(null);
+  };
+
   const value = {
-    signIn: (options) => supabase.auth.signIn(options),
-    signOut: () => supabase.auth.signOut(),
+    signIn,
+    signOut,
     user,
   };
 
