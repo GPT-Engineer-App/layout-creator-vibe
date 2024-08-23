@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -9,6 +10,7 @@ import { supabase } from '../integrations/supabase';
 
 const Login = () => {
   const { signIn } = useAuth();
+  const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -24,11 +26,12 @@ const Login = () => {
       let result;
       if (authMethod === 'magic-link') {
         result = await signIn({ email, authMethod });
+        setMessage('Check your email for the login link!');
       } else {
         result = await signIn({ email, password, authMethod });
+        if (result.error) throw result.error;
+        navigate('/'); // Redirect to the home page after successful login
       }
-      if (result.error) throw result.error;
-      setMessage(authMethod === 'magic-link' ? 'Check your email for the login link!' : 'Logged in successfully!');
     } catch (error) {
       setMessage(error.error_description || error.message);
     } finally {
