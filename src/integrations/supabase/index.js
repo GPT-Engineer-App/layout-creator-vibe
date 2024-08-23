@@ -330,19 +330,19 @@ export const useUserMatchesWithDetailsForProfile = (userId) => useQuery({
     enabled: !!userId
 });
 
-export const useDiscoveryMeetingsForProfile = (userId) => useQuery({
-    queryKey: ['discoveryMeetings', userId],
+export const useDiscoveryMeetingsForProfile = (guestEmail) => useQuery({
+    queryKey: ['discoveryMeetings', guestEmail],
     queryFn: async () => {
         const { data: meetings, error } = await supabase
             .from('meetings')
             .select('*')
-            .eq('host_email', userId)
+            .eq('guest_email', guestEmail)
             .order('event_start_time', { ascending: true });
 
         if (error) throw new Error(error.message);
         return meetings;
     },
-    enabled: !!userId
+    enabled: !!guestEmail
 });
 
 // Realtime subscription hook
