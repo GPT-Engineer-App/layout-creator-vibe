@@ -275,10 +275,10 @@ export const useDeleteFeedback = () => {
 };
 
 // Custom hooks for specific queries
-export const useMatchmakerProfile = (profileId) => useQuery({
-    queryKey: ['matchmakerProfile', profileId],
-    queryFn: () => fromSupabase(supabase.from('profiles').select('*').eq('user_id', profileId).single()),
-    enabled: !!profileId
+export const useMatchmakerProfile = (userId) => useQuery({
+    queryKey: ['matchmakerProfile', userId],
+    queryFn: () => fromSupabase(supabase.from('profiles').select('*').eq('user_id', userId).single()),
+    enabled: !!userId
 });
 
 export const useUserMatchesWithProfiles = (userId) => useQuery({
@@ -313,8 +313,8 @@ export const useUserMatchesWithProfiles = (userId) => useQuery({
     enabled: !!userId
 });
 
-export const useUserMatchesWithDetailsForProfile = (profileId) => useQuery({
-    queryKey: ['userMatchesWithDetails', profileId],
+export const useUserMatchesWithDetailsForProfile = (userId) => useQuery({
+    queryKey: ['userMatchesWithDetails', userId],
     queryFn: async () => {
         const { data: matches, error } = await supabase
             .from('matches')
@@ -322,27 +322,27 @@ export const useUserMatchesWithDetailsForProfile = (profileId) => useQuery({
                 *,
                 matched_profile:profiles!matches_matched_user_id_fkey(*)
             `)
-            .eq('user_id', profileId);
+            .eq('user_id', userId);
 
         if (error) throw new Error(error.message);
         return matches;
     },
-    enabled: !!profileId
+    enabled: !!userId
 });
 
-export const useDiscoveryMeetingsForProfile = (profileId) => useQuery({
-    queryKey: ['discoveryMeetings', profileId],
+export const useDiscoveryMeetingsForProfile = (userId) => useQuery({
+    queryKey: ['discoveryMeetings', userId],
     queryFn: async () => {
         const { data: meetings, error } = await supabase
             .from('meetings')
             .select('*')
-            .eq('host_email', profileId)
+            .eq('host_email', userId)
             .order('event_start_time', { ascending: true });
 
         if (error) throw new Error(error.message);
         return meetings;
     },
-    enabled: !!profileId
+    enabled: !!userId
 });
 
 // Realtime subscription hook
