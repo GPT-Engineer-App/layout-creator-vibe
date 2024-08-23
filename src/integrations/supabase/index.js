@@ -136,6 +136,18 @@ export const useDeleteMeeting = () => {
     });
 };
 
+// New function to fetch meetings for a given authenticated user email
+export const useUserMeetings = (authEmail) => useQuery({
+    queryKey: ['userMeetings', authEmail],
+    queryFn: () => fromSupabase(
+        supabase.from('meetings')
+            .select('*')
+            .or(`host_email.eq.${authEmail},guest_email.eq.${authEmail}`)
+            .order('event_start_time', { ascending: true })
+    ),
+    enabled: !!authEmail
+});
+
 // Profiles hooks
 export const useProfiles = () => useQuery({
     queryKey: ['profiles'],
