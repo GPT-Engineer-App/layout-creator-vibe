@@ -97,7 +97,7 @@ const Login = () => {
             </div>
           </form>
         </CardContent>
-        <CardFooter className="flex flex-col">
+        <CardFooter>
           <Button
             className="w-full"
             onClick={handleSignIn}
@@ -105,12 +105,12 @@ const Login = () => {
           >
             {isLoading ? 'Processing...' : (authMethod === 'magic-link' ? 'Send Magic Link' : 'Sign In')}
           </Button>
-          {message && (
-            <p className="mt-4 text-center text-sm">
-              {message}
-            </p>
-          )}
         </CardFooter>
+        {message && (
+          <p className="text-center text-sm p-4">
+            {message}
+          </p>
+        )}
       </Card>
     </div>
   );
