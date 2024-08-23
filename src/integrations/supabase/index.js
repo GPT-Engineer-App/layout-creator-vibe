@@ -245,7 +245,6 @@ export const useDeleteMatch = () => {
 };
 
 // Custom hooks for specific queries
-
 export const useRealtimeData = () => {
   const [realtimeData, setRealtimeData] = useState(null);
 
