@@ -5,6 +5,7 @@ import { Input } from '@/components/ui/input';
 import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
 import AuthToggle from '../components/molecules/AuthToggle';
+import { supabase } from '../integrations/supabase';
 
 const Login = () => {
   const { signIn } = useAuth();
@@ -28,6 +29,21 @@ const Login = () => {
       }
       if (result.error) throw result.error;
       setMessage(authMethod === 'magic-link' ? 'Check your email for the login link!' : 'Logged in successfully!');
+    } catch (error) {
+      setMessage(error.error_description || error.message);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleForgotPassword = async () => {
+    setIsLoading(true);
+    setMessage('');
+
+    try {
+      const { error } = await supabase.auth.resetPasswordForEmail(email);
+      if (error) throw error;
+      setMessage('Password reset email sent. Check your inbox.');
     } catch (error) {
       setMessage(error.error_description || error.message);
     } finally {
@@ -68,6 +84,14 @@ const Login = () => {
                     onChange={(e) => setPassword(e.target.value)}
                     required
                   />
+                  <Button
+                    type="button"
+                    variant="link"
+                    className="mt-2 text-sm text-blue-500 hover:text-blue-600 text-center"
+                    onClick={handleForgotPassword}
+                  >
+                    Forgot Password?
+                  </Button>
                 </div>
               )}
             </div>
