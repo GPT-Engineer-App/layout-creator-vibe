@@ -3,13 +3,12 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Skeleton } from "@/components/ui/skeleton";
 import { format } from "date-fns";
-import { useUserMeetings } from "../integrations/supabase";
+import { useDiscoveryMeetingsForProfile } from "../integrations/supabase";
 import { useToast } from "@/components/ui/use-toast";
 import { useEffect } from "react";
 
 const Meetings = () => {
-  const authEmail = sessionStorage.getItem("authEmail") || "";
-  const { data: meetings, isLoading, error } = useUserMeetings(authEmail);
+  const { data: meetings, isLoading, error } = useDiscoveryMeetingsForProfile();
   const { toast } = useToast();
 
   useEffect(() => {

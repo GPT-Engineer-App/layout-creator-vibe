@@ -330,20 +330,36 @@ export const useUserMatchesWithDetailsForProfile = (userId) => useQuery({
     enabled: !!userId
 });
 
-export const useDiscoveryMeetingsForProfile = (guestEmail) => useQuery({
-    queryKey: ['discoveryMeetings', guestEmail],
-    queryFn: async () => {
-        const { data: meetings, error } = await supabase
-            .from('meetings')
-            .select('*')
-            .eq('guest_email', guestEmail)
-            .order('event_start_time', { ascending: true });
+export const useDiscoveryMeetingsForProfile = () => {
+    const [user, setUser] = useState(null);
 
-        if (error) throw new Error(error.message);
-        return meetings;
-    },
-    enabled: !!guestEmail
-});
+    useEffect(() => {
+        const fetchUser = async () => {
+            const { data: { user } } = await supabase.auth.getUser();
+            setUser(user);
+        };
+        fetchUser();
+    }, []);
+
+    return useQuery({
+        queryKey: ['discoveryMeetings', user?.email],
+        queryFn: async () => {
+            if (!user?.email) {
+                throw new Error('User email not available');
+            }
+            console.log('Fetching meetings for email:', user.email);
+            const { data: meetings, error } = await supabase
+                .from('meetings')
+                .select('*')
+                .or(`guest_email.eq.${user.email},host_email.eq.${user.email}`)
+                .order('event_start_time', { ascending: true });
+
+            if (error) throw new Error(error.message);
+            return meetings;
+        },
+        enabled: !!user?.email
+    });
+};
 
 // Realtime subscription hook
 export const useRealtimeData = () => {
