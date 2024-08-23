@@ -26,8 +26,12 @@ export const AuthProvider = ({ children }) => {
     };
   }, []);
 
-  const signIn = async ({ email }) => {
-    return supabase.auth.signInWithOtp({ email });
+  const signIn = async ({ email, password, authMethod }) => {
+    if (authMethod === 'magic-link') {
+      return supabase.auth.signInWithOtp({ email });
+    } else {
+      return supabase.auth.signInWithPassword({ email, password });
+    }
   };
 
   const signOut = async () => {
