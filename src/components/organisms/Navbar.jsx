@@ -10,6 +10,7 @@ const Navbar = () => {
   const location = useLocation();
   const [email, setEmail] = useState("");
   const [isOpen, setIsOpen] = useState(false);
+  const [authUid, setAuthUid] = useState("");
 
   const handleSignIn = async (e) => {
     e.preventDefault();
@@ -22,6 +23,11 @@ const Navbar = () => {
     } catch (error) {
       toast.error(error.message);
     }
+  };
+
+  const handleAuthUidChange = (e) => {
+    setAuthUid(e.target.value);
+    sessionStorage.setItem("authUid", e.target.value);
   };
 
   return (
@@ -41,7 +47,14 @@ const Navbar = () => {
               </NavLink>
             </div>
           </div>
-          <div className="flex items-center">
+          <div className="flex items-center space-x-2">
+            <Input
+              type="text"
+              placeholder="Auth UID for testing"
+              value={authUid}
+              onChange={handleAuthUidChange}
+              className="w-48"
+            />
             <Dialog open={isOpen} onOpenChange={setIsOpen}>
               <DialogTrigger asChild>
                 <Button variant="outline">Sign In</Button>
