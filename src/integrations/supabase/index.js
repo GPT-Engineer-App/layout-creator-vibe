@@ -367,22 +367,43 @@ export const useDiscoveryMeetingsForProfile = () => {
     });
 };
 
-// Realtime subscription hook
-export const useRealtimeData = () => {
-    const [realtimeData, setRealtimeData] = useState(null);
+// New function to handle realtime updates for meetings
+export const useRealtimeMeetings = () => {
+    const queryClient = useQueryClient();
 
     useEffect(() => {
-        const subscription = supabase
-            .channel('table-db-changes')
-            .on('postgres_changes', { event: '*', schema: 'public' }, (payload) => {
-                setRealtimeData(payload);
-            })
+        const channel = supabase
+            .channel('meetings-changes')
+            .on('postgres_changes', 
+                { 
+                    event: 'INSERT', 
+                    schema: 'public', 
+                    table: 'meetings' 
+                }, 
+                (payload) => {
+                    console.log('New meeting inserted:', payload.new);
+                    queryClient.invalidateQueries('meetings');
+                    queryClient.invalidateQueries('userMeetings');
+                    queryClient.invalidateQueries('discoveryMeetings');
+                }
+            )
+            .on('postgres_changes', 
+                { 
+                    event: 'DELETE', 
+                    schema: 'public', 
+                    table: 'meetings' 
+                }, 
+                (payload) => {
+                    console.log('Meeting deleted:', payload.old);
+                    queryClient.invalidateQueries('meetings');
+                    queryClient.invalidateQueries('userMeetings');
+                    queryClient.invalidateQueries('discoveryMeetings');
+                }
+            )
             .subscribe();
 
         return () => {
-            subscription.unsubscribe();
+            supabase.removeChannel(channel);
         };
-    }, []);
-
-    return realtimeData;
+    }, [queryClient]);
 };
