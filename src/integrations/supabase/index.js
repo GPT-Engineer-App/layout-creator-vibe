@@ -1,12 +1,5 @@
-import { createClient } from "@supabase/supabase-js";
-import {
-  useQuery,
-  useMutation,
-  useQueryClient,
-  QueryClient,
-  QueryClientProvider,
-} from "@tanstack/react-query";
-import { useState, useEffect } from "react";
+import { createClient } from '@supabase/supabase-js';
+import { useQuery, useMutation, useQueryClient, QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
 const supabaseUrl = import.meta.env.VITE_SUPABASE_PROJECT_URL;
 const supabaseKey = import.meta.env.VITE_SUPABASE_API_KEY;
@@ -15,17 +8,13 @@ export const supabase = createClient(supabaseUrl, supabaseKey);
 import React from "react";
 export const queryClient = new QueryClient();
 export function SupabaseProvider({ children }) {
-  return React.createElement(
-    QueryClientProvider,
-    { client: queryClient },
-    children
-  );
+    return React.createElement(QueryClientProvider, { client: queryClient }, children);
 }
 
 const fromSupabase = async (query) => {
-  const { data, error } = await query;
-  if (error) throw new Error(error.message);
-  return data;
+    const { data, error } = await query;
+    if (error) throw new Error(error.message);
+    return data;
 };
 
 /* supabase integration types
@@ -49,21 +38,21 @@ const fromSupabase = async (query) => {
 
 ### profiles
 
-| name                    | type                     | format | required |
-|-------------------------|--------------------------|--------|----------|
-| user_id                 | uuid                     | string | true     |
-| name                    | text                     | string | true     |
-| image_url               | text                     | string | false    |
-| key_skills              | text[]                   | array  | false    |
-| industry                | text                     | string | false    |
-| business_goals          | text[]                   | array  | false    |
-| interests               | text[]                   | array  | false    |
-| location                | text                     | string | false    |
-| hobbies                 | text[]                   | array  | false    |
-| career_stage            | text                     | string | false    |
-| preferred_communication | text                     | string | false    |
-| created_at              | timestamp with time zone | string | false    |
-| updated_at              | timestamp with time zone | string | false    |
+| name                     | type                     | format | required |
+|--------------------------|--------------------------|--------|----------|
+| user_id                  | uuid                     | string | true     |
+| name                     | text                     | string | true     |
+| image_url                | text                     | string | false    |
+| key_skills               | text[]                   | array  | false    |
+| industry                 | text                     | string | false    |
+| business_goals           | text[]                   | array  | false    |
+| interests                | text[]                   | array  | false    |
+| location                 | text                     | string | false    |
+| hobbies                  | text[]                   | array  | false    |
+| career_stage             | text                     | string | false    |
+| preferred_communication  | text                     | string | false    |
+| created_at               | timestamp with time zone | string | false    |
+| updated_at               | timestamp with time zone | string | false    |
 
 ### matches
 
@@ -85,182 +74,166 @@ const fromSupabase = async (query) => {
 
 */
 
-// Meetings
-export const useMeetings = () =>
-  useQuery({
-    queryKey: ["meetings"],
-    queryFn: () => fromSupabase(supabase.from("meetings").select("*")),
-  });
+// Meetings hooks
+export const useMeetings = () => useQuery({
+    queryKey: ['meetings'],
+    queryFn: () => fromSupabase(supabase.from('meetings').select('*'))
+});
 
-export const useMeeting = (meetingId) =>
-  useQuery({
-    queryKey: ["meetings", meetingId],
-    queryFn: () =>
-      fromSupabase(
-        supabase
-          .from("meetings")
-          .select("*")
-          .eq("meeting_id", meetingId)
-          .single()
-      ),
-  });
+export const useMeeting = (meetingId) => useQuery({
+    queryKey: ['meetings', meetingId],
+    queryFn: () => fromSupabase(supabase.from('meetings').select('*').eq('meeting_id', meetingId).single())
+});
 
 export const useAddMeeting = () => {
-  const queryClient = useQueryClient();
-  return useMutation({
-    mutationFn: (newMeeting) =>
-      fromSupabase(supabase.from("meetings").insert([newMeeting])),
-    onSuccess: () => {
-      queryClient.invalidateQueries("meetings");
-    },
-  });
+    const queryClient = useQueryClient();
+    return useMutation({
+        mutationFn: (newMeeting) => fromSupabase(supabase.from('meetings').insert([newMeeting])),
+        onSuccess: () => {
+            queryClient.invalidateQueries('meetings');
+        },
+    });
 };
 
 export const useUpdateMeeting = () => {
-  const queryClient = useQueryClient();
-  return useMutation({
-    mutationFn: ({ meetingId, updates }) =>
-      fromSupabase(
-        supabase.from("meetings").update(updates).eq("meeting_id", meetingId)
-      ),
-    onSuccess: () => {
-      queryClient.invalidateQueries("meetings");
-    },
-  });
+    const queryClient = useQueryClient();
+    return useMutation({
+        mutationFn: ({ meetingId, updates }) => fromSupabase(supabase.from('meetings').update(updates).eq('meeting_id', meetingId)),
+        onSuccess: () => {
+            queryClient.invalidateQueries('meetings');
+        },
+    });
 };
 
 export const useDeleteMeeting = () => {
-  const queryClient = useQueryClient();
-  return useMutation({
-    mutationFn: (meetingId) =>
-      fromSupabase(
-        supabase.from("meetings").delete().eq("meeting_id", meetingId)
-      ),
-    onSuccess: () => {
-      queryClient.invalidateQueries("meetings");
-    },
-  });
+    const queryClient = useQueryClient();
+    return useMutation({
+        mutationFn: (meetingId) => fromSupabase(supabase.from('meetings').delete().eq('meeting_id', meetingId)),
+        onSuccess: () => {
+            queryClient.invalidateQueries('meetings');
+        },
+    });
 };
 
-// Profiles
-export const useProfiles = () =>
-  useQuery({
-    queryKey: ["profiles"],
-    queryFn: () => fromSupabase(supabase.from("profiles").select("*")),
-  });
+// Profiles hooks
+export const useProfiles = () => useQuery({
+    queryKey: ['profiles'],
+    queryFn: () => fromSupabase(supabase.from('profiles').select('*'))
+});
 
-export const useProfile = (userId) =>
-  useQuery({
-    queryKey: ["profiles", userId],
-    queryFn: () =>
-      fromSupabase(
-        supabase.from("profiles").select("*").eq("user_id", userId).single()
-      ),
-  });
+export const useProfile = (userId) => useQuery({
+    queryKey: ['profiles', userId],
+    queryFn: () => fromSupabase(supabase.from('profiles').select('*').eq('user_id', userId).single())
+});
 
 export const useAddProfile = () => {
-  const queryClient = useQueryClient();
-  return useMutation({
-    mutationFn: (newProfile) =>
-      fromSupabase(supabase.from("profiles").insert([newProfile])),
-    onSuccess: () => {
-      queryClient.invalidateQueries("profiles");
-    },
-  });
+    const queryClient = useQueryClient();
+    return useMutation({
+        mutationFn: (newProfile) => fromSupabase(supabase.from('profiles').insert([newProfile])),
+        onSuccess: () => {
+            queryClient.invalidateQueries('profiles');
+        },
+    });
 };
 
 export const useUpdateProfile = () => {
-  const queryClient = useQueryClient();
-  return useMutation({
-    mutationFn: ({ userId, updates }) =>
-      fromSupabase(
-        supabase.from("profiles").update(updates).eq("user_id", userId)
-      ),
-    onSuccess: () => {
-      queryClient.invalidateQueries("profiles");
-    },
-  });
+    const queryClient = useQueryClient();
+    return useMutation({
+        mutationFn: ({ userId, updates }) => fromSupabase(supabase.from('profiles').update(updates).eq('user_id', userId)),
+        onSuccess: () => {
+            queryClient.invalidateQueries('profiles');
+        },
+    });
 };
 
 export const useDeleteProfile = () => {
-  const queryClient = useQueryClient();
-  return useMutation({
-    mutationFn: (userId) =>
-      fromSupabase(supabase.from("profiles").delete().eq("user_id", userId)),
-    onSuccess: () => {
-      queryClient.invalidateQueries("profiles");
-    },
-  });
+    const queryClient = useQueryClient();
+    return useMutation({
+        mutationFn: (userId) => fromSupabase(supabase.from('profiles').delete().eq('user_id', userId)),
+        onSuccess: () => {
+            queryClient.invalidateQueries('profiles');
+        },
+    });
 };
 
-// Matches
-export const useMatches = () =>
-  useQuery({
-    queryKey: ["matches"],
-    queryFn: () => fromSupabase(supabase.from("matches").select("*")),
-  });
+// Matches hooks
+export const useMatches = () => useQuery({
+    queryKey: ['matches'],
+    queryFn: () => fromSupabase(supabase.from('matches').select('*'))
+});
 
-export const useMatch = (matchId) =>
-  useQuery({
-    queryKey: ["matches", matchId],
-    queryFn: () =>
-      fromSupabase(
-        supabase.from("matches").select("*").eq("match_id", matchId).single()
-      ),
-  });
+export const useMatch = (matchId) => useQuery({
+    queryKey: ['matches', matchId],
+    queryFn: () => fromSupabase(supabase.from('matches').select('*').eq('match_id', matchId).single())
+});
 
 export const useAddMatch = () => {
-  const queryClient = useQueryClient();
-  return useMutation({
-    mutationFn: (newMatch) =>
-      fromSupabase(supabase.from("matches").insert([newMatch])),
-    onSuccess: () => {
-      queryClient.invalidateQueries("matches");
-    },
-  });
+    const queryClient = useQueryClient();
+    return useMutation({
+        mutationFn: (newMatch) => fromSupabase(supabase.from('matches').insert([newMatch])),
+        onSuccess: () => {
+            queryClient.invalidateQueries('matches');
+        },
+    });
 };
 
 export const useUpdateMatch = () => {
-  const queryClient = useQueryClient();
-  return useMutation({
-    mutationFn: ({ matchId, updates }) =>
-      fromSupabase(
-        supabase.from("matches").update(updates).eq("match_id", matchId)
-      ),
-    onSuccess: () => {
-      queryClient.invalidateQueries("matches");
-    },
-  });
+    const queryClient = useQueryClient();
+    return useMutation({
+        mutationFn: ({ matchId, updates }) => fromSupabase(supabase.from('matches').update(updates).eq('match_id', matchId)),
+        onSuccess: () => {
+            queryClient.invalidateQueries('matches');
+        },
+    });
 };
 
 export const useDeleteMatch = () => {
-  const queryClient = useQueryClient();
-  return useMutation({
-    mutationFn: (matchId) =>
-      fromSupabase(supabase.from("matches").delete().eq("match_id", matchId)),
-    onSuccess: () => {
-      queryClient.invalidateQueries("matches");
-    },
-  });
+    const queryClient = useQueryClient();
+    return useMutation({
+        mutationFn: (matchId) => fromSupabase(supabase.from('matches').delete().eq('match_id', matchId)),
+        onSuccess: () => {
+            queryClient.invalidateQueries('matches');
+        },
+    });
 };
 
-// Custom hooks for specific queries
+// Additional hooks for specific queries
+export const useDiscoveryMeetingsForProfile = (profileId) => useQuery({
+    queryKey: ['discoveryMeetings', profileId],
+    queryFn: () => fromSupabase(supabase.from('meetings').select('*').eq('guest_email', profileId).order('event_start_time', { ascending: true }))
+});
+
+export const useMatchmakerProfile = (profileId) => useQuery({
+    queryKey: ['matchmakerProfile', profileId],
+    queryFn: () => fromSupabase(supabase.from('profiles').select('*').eq('user_id', profileId).single())
+});
+
+export const useUserMatchesWithDetailsForProfile = (profileId) => useQuery({
+    queryKey: ['userMatchesWithDetails', profileId],
+    queryFn: () => fromSupabase(supabase.from('matches')
+        .select(`
+            *,
+            matched_profile:profiles!matches_matched_user_id_fkey(*)
+        `)
+        .eq('user_id', profileId)
+        .order('matching_score', { ascending: false }))
+});
 
 export const useRealtimeData = () => {
-  const [realtimeData, setRealtimeData] = useState(null);
+    const [realtimeData, setRealtimeData] = React.useState(null);
 
-  useEffect(() => {
-    const channel = supabase
-      .channel("table-db-changes")
-      .on("postgres_changes", { event: "*", schema: "public" }, (payload) => {
-        setRealtimeData(payload);
-      })
-      .subscribe();
+    React.useEffect(() => {
+        const channel = supabase
+            .channel('table-db-changes')
+            .on('postgres_changes', { event: '*', schema: 'public' }, (payload) => {
+                setRealtimeData(payload);
+            })
+            .subscribe();
 
-    return () => {
-      supabase.removeChannel(channel);
-    };
-  }, []);
+        return () => {
+            supabase.removeChannel(channel);
+        };
+    }, []);
 
-  return realtimeData;
+    return realtimeData;
 };
