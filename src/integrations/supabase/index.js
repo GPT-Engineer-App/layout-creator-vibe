@@ -281,65 +281,71 @@ export const useMatchmakerProfile = (userId) => useQuery({
     enabled: !!userId
 });
 
-export const useUserMatchesWithProfiles = (userId) => useQuery({
-    queryKey: ['userMatchesWithProfiles', userId],
-    queryFn: async () => {
-        const { data, error } = await supabase
-            .from('matches')
-            .select(`
-                *,
-                matched_profile:profiles!matches_matched_user_id_fkey(*)
-            `)
-            .eq('user_id', userId);
+import { useAuth } from '../../contexts/AuthContext';
 
-        if (error) throw new Error(error.message);
-        return data.map(match => ({
-            ...match,
-            name: match.matched_profile.name,
-            country: match.matched_profile.location,
-            experience: match.matched_profile.career_stage,
-            matchScore: match.matching_score,
-            matchReason: match.explanation,
-            potentialCollaboration: match.potential_collaboration,
-            complimentarySkills: match.complementary_skills,
-            sharedInterests: match.shared_interests,
-            communicationCompatibility: match.communication_compatibility,
-            geographicalSynergy: match.geographical_synergy,
-            industry: match.matched_profile.industry,
-            imageUrl: match.matched_profile.image_url,
-            keySkills: match.matched_profile.key_skills
-        }));
-    },
-    enabled: !!userId
-});
+export const useUserMatchesWithProfiles = () => {
+    const { user } = useAuth();
 
-export const useUserMatchesWithDetailsForProfile = (userId) => useQuery({
-    queryKey: ['userMatchesWithDetails', userId],
-    queryFn: async () => {
-        const { data: matches, error } = await supabase
-            .from('matches')
-            .select(`
-                *,
-                matched_profile:profiles!matches_matched_user_id_fkey(*)
-            `)
-            .eq('user_id', userId);
+    return useQuery({
+        queryKey: ['userMatchesWithProfiles', user?.id],
+        queryFn: async () => {
+            if (!user) throw new Error('User not authenticated');
 
-        if (error) throw new Error(error.message);
-        return matches;
-    },
-    enabled: !!userId
-});
+            const { data, error } = await supabase
+                .from('matches')
+                .select(`
+                    *,
+                    matched_profile:profiles!matches_matched_user_id_fkey(*)
+                `)
+                .eq('user_id', user.id);
+
+            if (error) throw new Error(error.message);
+            return data.map(match => ({
+                ...match,
+                name: match.matched_profile.name,
+                country: match.matched_profile.location,
+                experience: match.matched_profile.career_stage,
+                matchScore: match.matching_score,
+                matchReason: match.explanation,
+                potentialCollaboration: match.potential_collaboration,
+                complimentarySkills: match.complementary_skills,
+                sharedInterests: match.shared_interests,
+                communicationCompatibility: match.communication_compatibility,
+                geographicalSynergy: match.geographical_synergy,
+                industry: match.matched_profile.industry,
+                imageUrl: match.matched_profile.image_url,
+                keySkills: match.matched_profile.key_skills
+            }));
+        },
+        enabled: !!user
+    });
+};
+
+export const useUserMatchesWithDetailsForProfile = () => {
+    const { user } = useAuth();
+
+    return useQuery({
+        queryKey: ['userMatchesWithDetails', user?.id],
+        queryFn: async () => {
+            if (!user) throw new Error('User not authenticated');
+
+            const { data: matches, error } = await supabase
+                .from('matches')
+                .select(`
+                    *,
+                    matched_profile:profiles!matches_matched_user_id_fkey(*)
+                `)
+                .eq('user_id', user.id);
+
+            if (error) throw new Error(error.message);
+            return matches;
+        },
+        enabled: !!user
+    });
+};
 
 export const useDiscoveryMeetingsForProfile = () => {
-    const [user, setUser] = useState(null);
-
-    useEffect(() => {
-        const fetchUser = async () => {
-            const { data: { user } } = await supabase.auth.getUser();
-            setUser(user);
-        };
-        fetchUser();
-    }, []);
+    const { user } = useAuth();
 
     return useQuery({
         queryKey: ['discoveryMeetings', user?.email],
