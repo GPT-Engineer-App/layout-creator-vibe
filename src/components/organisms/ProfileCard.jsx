@@ -8,7 +8,22 @@ const ProfileCard = () => {
   const authUid = "f7318dfb-161f-485d-86d4-f599d01e657e";
   const { data: profile, isLoading, error } = useProfile(authUid);
 
-  if (isLoading) {
+  const isProfileEmpty = (profile) => {
+    return !profile || (
+      !profile.name &&
+      !profile.career_stage &&
+      !profile.image_url &&
+      (!profile.business_goals || profile.business_goals.length === 0) &&
+      (!profile.key_skills || profile.key_skills.length === 0) &&
+      (!profile.interests || profile.interests.length === 0) &&
+      (!profile.hobbies || profile.hobbies.length === 0) &&
+      !profile.preferred_communication &&
+      !profile.location &&
+      !profile.industry
+    );
+  };
+
+  if (isLoading || isProfileEmpty(profile)) {
     return (
       <div className="h-full bg-white rounded-lg shadow-md p-6 overflow-auto">
         <Skeleton className="h-8 w-3/4 mb-6" />
